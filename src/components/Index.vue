@@ -16,7 +16,7 @@
                 <!--</transition-group>-->
             </el-main>
             <el-footer style="height: 40px;">
-                <router-view name="pager"></router-view>
+                <router-view name="footer"></router-view>
             </el-footer>
         </el-container>
     </el-container>
@@ -57,6 +57,7 @@
     }
     .el-main {
         padding: 0;
+        height: 80vh;
     }
     .el-footer {
         width: 100%;

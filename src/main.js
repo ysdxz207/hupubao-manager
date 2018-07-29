@@ -9,7 +9,8 @@ import Global from '~/global/Global'
 
 const Index = () => import('./components/Index.vue').then(m => m.default)
 const Dashbord = () => import('./components/Dashbord.vue').then(m => m.default)
-const Pager = () => import('./components/Pager.vue').then(m => m.default)
+const Pager = () => import('./components/widgets/Pager.vue').then(m => m.default)
+const ToolBar = () => import('./components/widgets/ToolBar.vue').then(m => m.default)
 const Login = () => import('./components/Login.vue').then(m => m.default)
 const Register = () => import('./components/Register.vue').then(m => m.default)
 const Article = () => import('./components/blog/Article.vue').then(m => m.default)
@@ -53,14 +54,15 @@ const routes = [
                     default: Article,
                     toolbar: SearchArticle,
                     breadcrumb: Breadcrumb,
-                    pager: Pager
+                    footer: Pager
                 }
             },
             {
                 name: Global.Blog.articleEdit.name,
                 path: 'article/edit', components: {
                     default: ArticleEdit,
-                    breadcrumb: Breadcrumb
+                    breadcrumb: Breadcrumb,
+                    footer: ToolBar
                 }
             },
             {
@@ -69,7 +71,7 @@ const routes = [
                     default: ArticleCategory,
                     // toolbar: SearchArticle,
                     breadcrumb: Breadcrumb,
-                    pager: Pager
+                    footer: Pager
                 }
             },
             {
@@ -78,7 +80,7 @@ const routes = [
                     default: ArticleTag,
                     // toolbar: SearchArticle,
                     breadcrumb: Breadcrumb,
-                    pager: Pager
+                    footer: Pager
                 }
             }
         ]

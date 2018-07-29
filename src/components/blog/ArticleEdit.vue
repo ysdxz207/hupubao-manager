@@ -20,64 +20,29 @@
             </el-select>
         </el-form-item>
         <el-form-item label="标签" required>
-            <el-tag
-                    :key="tag"
-                    v-for="tag in article.tagList"
-                    closable
-                    :disable-transitions="false"
-                    @close="tagCloseHandler(tag)">
-                {{tag.name}}
-            </el-tag>
-            <el-input
-                    class="input-new-tag"
-                    v-if="tagInputVisible"
-                    v-model="inputValue"
-                    ref="saveTagInput"
-                    size="small"
-                    @keyup.enter.native="handleInputConfirm"
-                    @blur="handleInputConfirm"
-            >
-            </el-input>
-            <el-button v-else class="button-new-tag" size="small" @click="showTagInput">+ New Tag</el-button>
+            <el-input v-model="article.tags"></el-input>
         </el-form-item>
-        <el-form-item label="即时配送" prop="delivery">
-            <el-switch v-model="article.delivery"></el-switch>
-        </el-form-item>
-        <el-form-item label="活动性质" prop="type">
-            <el-checkbox-group v-model="article.type">
-                <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-                <el-checkbox label="地推活动" name="type"></el-checkbox>
-                <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-                <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
-            </el-checkbox-group>
-        </el-form-item>
-        <el-form-item label="特殊资源" prop="resource">
-            <el-radio-group v-model="article.resource">
-                <el-radio label="线上品牌商赞助"></el-radio>
-                <el-radio label="线下场地免费"></el-radio>
-            </el-radio-group>
-        </el-form-item>
-        <el-form-item label="活动形式" prop="desc">
-            <el-input type="textarea" v-model="article.desc"></el-input>
-        </el-form-item>
-        <el-form-item>
-            <el-button type="primary" @click="submitForm('article')">立即创建</el-button>
-            <el-button @click="resetForm('article')">重置</el-button>
+        <el-form-item label="内容" required>
+            <mavon-editor v-model="article.context"></mavon-editor>
         </el-form-item>
     </el-form>
 </template>
 
 <script>
     import Blog from '~/api/blog'
+    import { mavonEditor } from 'mavon-editor'
+    import 'mavon-editor/dist/css/index.css'
 
     export default {
-        components: {},
+        components: {
+            mavonEditor
+        },
         data() {
             return {
                 rules: {
                     title: [
                         { required: true, message: '请输入标题', trigger: 'blur' },
-                        { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                        { min: 1, message: '标题不可为空', trigger: 'blur' }
                     ],
                     region: [
                         { required: true, message: '请选择活动区域', trigger: 'change' }
@@ -99,8 +64,7 @@
                     ]
                 },
                 article: {
-                    id: this.$route.params.id,
-                    tags: []
+                    id: this.$route.query.id
                 },
                 categoryList: [],
                 tagList: [],
@@ -110,12 +74,26 @@
         },
         created() {
             let _this = this
+            _this.bus.$on('save', function () {
+                Blog.editArticle(_this.article).then(response => {
+                    if (response.errorCode === 'SUCCESS') {
+                        _this.$router.push({path:'/blog/article'})
+                    }
+                })
+            })
+            _this.bus.$on('delete', function () {
+                Blog.deleteArticle(_this.article).then(response => {
+                    if (response.errorCode === 'SUCCESS') {
+                        _this.$router.push({path:'/blog/article'})
+                    }
+                })
+            })
+
         },
         computed: {
         },
         mounted() {
             let _this = this
-            console.log(this.article.id)
             Blog.getArticleDetail(this.article.id).then(response => {
                 _this.article = response.data
             })
@@ -156,22 +134,8 @@
 <style lang="less" scoped>
     .form-article-edit {
         margin-top: 10px;
+        margin-bottom: 100px;
         padding-right: 20px;
     }
 
-    .el-tag + .el-tag {
-        margin-left: 10px;
-    }
-    .button-new-tag {
-        margin-left: 10px;
-        height: 32px;
-        line-height: 30px;
-        padding-top: 0;
-        padding-bottom: 0;
-    }
-    .input-new-tag {
-        width: 90px;
-        margin-left: 10px;
-        vertical-align: bottom;
-    }
 </style>

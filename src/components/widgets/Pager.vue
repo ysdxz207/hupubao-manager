@@ -2,8 +2,8 @@
     <el-pagination
             background
             @size-change="pageSizeChangeHandler"
-            @current-change="pageCurrentChangeHandler"
-            :current-page="search.pageCurrent"
+            @current-change="pageNumChangeHandler"
+            :current-page="search.pageNum"
             :page-sizes="[10, 20, 40, 100]"
             :page-size="search.pageSize"
             layout="total, sizes, prev, pager, next, jumper"
@@ -24,6 +24,7 @@
             let _this = this
             _this.bus.$on('pager', function (search) {
                 _this.search = search
+                console.log(_this.search)
             })
         },
         watch: {},
@@ -33,9 +34,9 @@
                 this.Constants.PageInfo.pageSize = pageSize
                 this.bus.$emit('pageSizeChange', this.search)
             },
-            pageCurrentChangeHandler: function (pageCurrent) {
-                this.search = Object.assign({}, this.search, {pageCurrent})
-                this.bus.$emit('pageCurrentChange', this.search)
+            pageNumChangeHandler: function (pageNum) {
+                this.search = Object.assign({}, this.search, {pageNum})
+                this.bus.$emit('pageNumChange', this.search)
             }
         }
     }

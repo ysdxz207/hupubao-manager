@@ -40,4 +40,24 @@ blog.getArticleDetail = function (id) {
     })
 }
 
+blog.editArticle = function (article) {
+
+    return request({
+        data: {
+            service: Global.Blog.articleEdit.service,
+            bizContent: article
+        }
+    })
+}
+
+blog.deleteArticle = function (article) {
+
+    return request({
+        data: {
+            service: Global.Blog.articleDelete.service,
+            bizContent: article
+        }
+    })
+}
+
 export default blog;

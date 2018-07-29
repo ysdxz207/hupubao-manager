@@ -72,7 +72,7 @@
                 _this.search = search
                 _this.loadPage()
             })
-            _this.bus.$on('pageCurrentChange', function (search) {
+            _this.bus.$on('pageNumChange', function (search) {
                 _this.search = search
                 _this.loadPage()
             })
@@ -103,9 +103,9 @@
                     this.page = this.Constants.PageInfo
                 }
                 let searchInfo = {
-                    pageCurrent: this.page.pageCurrent,
+                    pageNum: this.page.pageNum,
                     pageSize: this.Constants.PageInfo.pageSize,
-                    totalCount: this.page.total
+                    total: this.page.total
                 }
                 searchInfo = Object.assign({}, this.search, searchInfo)
                 return searchInfo
@@ -130,7 +130,7 @@
                 window.open('http://hupubao.win/article/detail?id=' + row.id)
             },
             editHandler(row) {
-                this.$router.push({name: this.Constants.Blog.articleEdit.name, params: {id: row.id}})
+                this.$router.push({name: this.Constants.Blog.articleEdit.name, query: {id: row.id}})
             },
             loadPage() {
                 let _this = this
@@ -140,17 +140,7 @@
                         _this.page = response
                         _this.bus.$emit('pager', _this.pageInfo)
                         _this.toggleLoading()
-                        _this.scrollbarShowHidden(document.querySelector('.el-table__body-wrapper'))
                     })
-            },
-            scrollbarShowHidden(element){
-                element.addClass('scrollbarHide');
-                element.hover(function() {
-                    element.addClass('scrollbarShow');
-                }, function() {
-                    element.removeClass('scrollbarShow');
-                });
-
             }
         }
     }

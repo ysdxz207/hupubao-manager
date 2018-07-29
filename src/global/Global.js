@@ -1,6 +1,6 @@
 
 const PageInfo = {
-    pageCurrent: 1,
+    pageNum: 1,
     pageSize: 10
 }
 
@@ -33,6 +33,9 @@ const Blog = {
     articleEdit: {
         name: 'blog.article.edit',
         service: 'article.edit'
+    },
+    articleDelete: {
+        service: 'article.delete'
     },
     category: {
         name: 'blog.category',

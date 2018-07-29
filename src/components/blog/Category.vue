@@ -43,7 +43,7 @@
                 _this.search = search
                 _this.loadPage()
             })
-            _this.bus.$on('pageCurrentChange', function (search) {
+            _this.bus.$on('pageNumChange', function (search) {
                 _this.search = search
                 _this.loadPage()
             })
@@ -74,7 +74,7 @@
                     this.page = this.Constants.PageInfo
                 }
                 let searchInfo = {
-                    pageCurrent: this.page.pageCurrent,
+                    pageNum: this.page.pageNum,
                     pageSize: this.Constants.PageInfo.pageSize,
                     totalCount: this.page.total
                 }
