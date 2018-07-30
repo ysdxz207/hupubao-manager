@@ -10,7 +10,7 @@ import Global from '~/global/Global'
 const Index = () => import('./components/Index.vue').then(m => m.default)
 const Dashbord = () => import('./components/Dashbord.vue').then(m => m.default)
 const Pager = () => import('./components/widgets/Pager.vue').then(m => m.default)
-const ToolBar = () => import('./components/widgets/ToolBar.vue').then(m => m.default)
+const EditBar = () => import('./components/widgets/EditBar.vue').then(m => m.default)
 const Login = () => import('./components/Login.vue').then(m => m.default)
 const Register = () => import('./components/Register.vue').then(m => m.default)
 const Article = () => import('./components/blog/Article.vue').then(m => m.default)
@@ -62,7 +62,7 @@ const routes = [
                 path: 'article/edit', components: {
                     default: ArticleEdit,
                     breadcrumb: Breadcrumb,
-                    footer: ToolBar
+                    footer: EditBar
                 }
             },
             {

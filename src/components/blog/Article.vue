@@ -68,14 +68,17 @@
         },
         created () {
             let _this = this
+            _this.bus.$off('pageSizeChange')
             _this.bus.$on('pageSizeChange', function (search) {
                 _this.search = search
                 _this.loadPage()
             })
+            _this.bus.$off('pageNumChange')
             _this.bus.$on('pageNumChange', function (search) {
                 _this.search = search
                 _this.loadPage()
             })
+            _this.bus.$off(this.Constants.Blog.article.name)
             _this.bus.$on(this.Constants.Blog.article.name, function (search) {
                 _this.search = search
                 _this.loadPage()

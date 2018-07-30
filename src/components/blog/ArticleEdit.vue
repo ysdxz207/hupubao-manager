@@ -74,6 +74,7 @@
         },
         created() {
             let _this = this
+            _this.bus.$off('save')
             _this.bus.$on('save', function () {
                 Blog.editArticle(_this.article).then(response => {
                     if (response.errorCode === 'SUCCESS') {
@@ -81,6 +82,7 @@
                     }
                 })
             })
+            _this.bus.$off('delete')
             _this.bus.$on('delete', function () {
                 Blog.deleteArticle(_this.article).then(response => {
                     if (response.errorCode === 'SUCCESS') {
@@ -102,11 +104,11 @@
             }).then(response => {
                 this.categoryList = response.list
             })
-            Blog.getArticleTags({
-                pageSize: 1024
-            }).then(response => {
-                this.tagList = response.list
-            })
+            // Blog.getArticleTags({
+            //     pageSize: 1024
+            // }).then(response => {
+            //     this.tagList = response.list
+            // })
         },
         watch: {},
         methods: {
