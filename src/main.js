@@ -99,12 +99,20 @@ const routes = [
         path: '/afu',
         component: Index,
         children: [
-            {path: '/', component: Afu},
-            {path: 'type', component: AfuType}
+            {
+                name: 'afu',
+                path: '/',
+                component: Afu
+            },
+            {
+                name: 'afu.type',
+                path: 'type',
+                component: AfuType
+            }
         ]
     },
     {
-        name: 'login',
+        name: Global.Login.login.name,
         path: '/login',
         component: Login
     },
@@ -146,5 +154,23 @@ new Vue({
     router,
     render: h => h(App)
 }).$mount('#app-box')
+
+let originRemoveItem = sessionStorage.removeItem
+//监听sessionStorage
+sessionStorage.removeItem = function (key, newValue) {
+    originRemoveItem.apply(this, arguments)
+    let removeItemEvent = new Event('noAuthEvent')
+    removeItemEvent.key = key
+    removeItemEvent.newValue = newValue
+    window.dispatchEvent(removeItemEvent)
+}
+window.addEventListener('noAuthEvent', function (e) {
+    console.log(e.key)
+    console.log(e.oldValue)
+    console.log(e.newValue)
+    if (e.key === 'token') {
+        router.push({name: Global.Login.login.name})
+    }
+})
 
 Vue.prototype.bus = new Vue()

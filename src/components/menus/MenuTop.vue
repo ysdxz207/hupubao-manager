@@ -8,7 +8,7 @@
                 background-color="#545c64"
                 text-color="#fff"
                 active-text-color="#ffd04b">
-            <el-menu-item :index="menu.id"
+            <el-menu-item :index="menu.code"
                           v-for="(menu,index) in menus"
                           :key="index">
                 <i :class="menu.icon"></i>
@@ -44,8 +44,12 @@
         data() {
             return {
                 user: {},
-                menus: [],
-                activeIndex: ''
+                menus: []
+            }
+        },
+        computed: {
+            activeIndex: function () {
+                return this.$route.name ? this.$route.name.split('.')[0] : this.Constants.Main.dashbord.name
             }
         },
         mounted() {
@@ -95,9 +99,6 @@
             }
         },
         created() {
-            this.bus.$on('selectLeftMenu', function (menuType) {
-                this.activeIndex = menuType
-            })
         },
         watch: {}
     }

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {Message} from 'element-ui'
 
+
 // create an axios instance
 const service = axios.create({
     // baseURL: process.env.BASE_API, // api的base_url
@@ -41,10 +42,10 @@ service.interceptors.response.use(
          * 如通过xmlhttprequest 状态码标识 逻辑可写在下面error中
          */
         const res = response.data
-
+        sessionStorage.removeItem('aaa')
         if (res.statusCode !== 200) {
             if (res.errorCode === 'NO_AUTH_ERROR') {
-                sessionStorage.removeItem("token")
+                sessionStorage.removeItem('token')
                 return
             }
             Message({

@@ -3,8 +3,8 @@
         <el-header></el-header>
         <el-main>
             <el-row :gutter="20">
-                <el-col :span="16" :xs="0" class="login-left">&nbsp;</el-col>
-                <el-col :span="8" :xs="24" class="login-right">
+                <el-col :span="16" :xs="0" :sm="14" class="login-left">&nbsp;</el-col>
+                <el-col :span="8" :xs="24" :sm="10" class="login-right">
                     <el-form ref="user" :model="user" :rules="rules" label-width="80px">
                         <el-form-item>
                             <span class="login-right-title">登录管理后台</span>

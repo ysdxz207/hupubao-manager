@@ -36,16 +36,16 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="发布状态">
-            <el-select
-                    clearable
-                    v-model="search.status"
-                    style="width:100%"
-                    placeholder="全部状态">
-                <el-option label="已发布"
-                           value="1"></el-option>
-                <el-option label="未发布"
-                           value="0"></el-option>
-            </el-select>
+                <el-select
+                        clearable
+                        v-model="search.status"
+                        style="width:100%"
+                        placeholder="全部状态">
+                    <el-option label="已发布"
+                               value="1"></el-option>
+                    <el-option label="未发布"
+                               value="0"></el-option>
+                </el-select>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -64,7 +64,7 @@
             return {
                 search: {},
                 dialogFormVisible: false,
-                formLabelWidth: '120px',
+                formLabelWidth: '80px',
                 categoryList: [],
                 tagList: [],
                 searchFrom: this.Constants.Blog.article.name

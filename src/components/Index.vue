@@ -7,13 +7,10 @@
         <el-container>
             <el-header><menu-top></menu-top></el-header>
             <el-main>
-                <!--<transition-group name="fade">-->
-                    <!--<router-view name="breadcrumb" :key="1"></router-view>-->
-                    <router-view name="toolbar"
-                                 :key="2"
-                                 class="toolbar"></router-view>
-                    <router-view :key="3"></router-view>
-                <!--</transition-group>-->
+                <router-view name="toolbar"
+                             :key="1"
+                             class="toolbar"></router-view>
+                <router-view :key="2"></router-view>
             </el-main>
             <el-footer style="height: 40px;">
                 <router-view name="footer"></router-view>

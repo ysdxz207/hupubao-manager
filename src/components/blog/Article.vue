@@ -1,5 +1,5 @@
 <template>
-
+    <div>
         <el-table
                 v-loading="loading"
                 element-loading-text="读取数据中..."
@@ -57,6 +57,15 @@
             </el-table-column>
 
         </el-table>
+
+        <el-tooltip class="item" effect="dark" content="写文章" placement="top-start">
+        <el-button type="success"
+                   icon="el-icon-edit"
+                   class="btn-new-article"
+                   circle
+                   @click.native="editHandler"></el-button>
+        </el-tooltip>
+    </div>
 </template>
 
 <script>
@@ -157,4 +166,13 @@
         overflow: hidden;
     }
 
+    .btn-new-article {
+        position: fixed;
+        top: 40vh;
+        left: 50vw;
+        opacity: 0.35
+    }
+    .btn-new-article:hover {
+        opacity: 1;
+    }
 </style>

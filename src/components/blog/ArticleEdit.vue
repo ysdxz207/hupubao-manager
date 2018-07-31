@@ -2,7 +2,7 @@
     <el-form :model="article"
              :rules="rules"
              ref="article"
-             label-width="100px"
+             label-width="80px"
              class="form-article-edit">
         <el-form-item label="标题" prop="title">
             <el-input v-model="article.title"></el-input>
@@ -19,11 +19,22 @@
                            :key="index"></el-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="标签" required>
+        <el-form-item label="标签">
             <el-input v-model="article.tags"></el-input>
         </el-form-item>
         <el-form-item label="内容" required>
             <mavon-editor v-model="article.context"></mavon-editor>
+        </el-form-item>
+        <el-form-item label="发布状态" prop="status">
+            <el-col :span="1">
+                <el-switch
+                    v-model="article.status"
+                    active-color="#13ce66"
+                    inactive-color="#8D8D8D"
+                    :active-value="1"
+                    :inactive-value="0">
+                </el-switch>
+            </el-col>
         </el-form-item>
     </el-form>
 </template>
@@ -43,33 +54,20 @@
                     title: [
                         { required: true, message: '请输入标题', trigger: 'blur' },
                         { min: 1, message: '标题不可为空', trigger: 'blur' }
-                    ],
-                    region: [
-                        { required: true, message: '请选择活动区域', trigger: 'change' }
-                    ],
-                    date1: [
-                        { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-                    ],
-                    date2: [
-                        { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
-                    ],
-                    type: [
-                        { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
-                    ],
-                    resource: [
-                        { required: true, message: '请选择活动资源', trigger: 'change' }
-                    ],
-                    desc: [
-                        { required: true, message: '请填写活动形式', trigger: 'blur' }
                     ]
                 },
                 article: {
-                    id: this.$route.query.id
+                    id: this.$route.query.id,
+                    status: 1
                 },
                 categoryList: [],
                 tagList: [],
                 tagInputVisible: false,
-                inputValue: ''
+                inputValue: '',
+                statusList: [
+                    {status: 1, name: '发布'},
+                    {status: 0, name: '不发布'}
+                    ]
             }
         },
         created() {
@@ -79,16 +77,43 @@
                 Blog.editArticle(_this.article).then(response => {
                     if (response.errorCode === 'SUCCESS') {
                         _this.$router.push({path:'/blog/article'})
+                        this.$message({
+                            type: 'success',
+                            message: '编辑成功!'
+                        })
+                    } else {
+                        this.$message({
+                            type: 'error',
+                            message: '编辑失败!'
+                        })
                     }
                 })
             })
             _this.bus.$off('delete')
             _this.bus.$on('delete', function () {
-                Blog.deleteArticle(_this.article).then(response => {
-                    if (response.errorCode === 'SUCCESS') {
-                        _this.$router.push({path:'/blog/article'})
-                    }
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                    center: true
+                }).then(() => {
+                    Blog.deleteArticle(_this.article).then(response => {
+                        if (response.errorCode === 'SUCCESS') {
+                            _this.$router.push({path:'/blog/article'})
+                            this.$message({
+                                type: 'success',
+                                message: '删除成功!'
+                            })
+                        } else {
+                            this.$message({
+                                type: 'error',
+                                message: '删除失败!'
+                            })
+                        }
+                    })
+                }).catch(() => {
                 })
+
             })
 
         },
@@ -96,9 +121,7 @@
         },
         mounted() {
             let _this = this
-            Blog.getArticleDetail(this.article.id).then(response => {
-                _this.article = response.data
-            })
+
             Blog.getArticleCategories({
                 pageSize: 1024
             }).then(response => {
@@ -109,6 +132,13 @@
             // }).then(response => {
             //     this.tagList = response.list
             // })
+
+            if (!this.article.id) {
+                return
+            }
+            Blog.getArticleDetail(this.article.id).then(response => {
+                _this.article = response.data
+            })
         },
         watch: {},
         methods: {

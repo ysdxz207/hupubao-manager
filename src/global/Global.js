@@ -9,6 +9,7 @@ const Login = {
         service: 'captcha.create'
     },
     login: {
+        name: 'user.login',
         service: 'user.login'
     }
 }
@@ -19,6 +20,12 @@ const Menu = {
     },
     nav: {
         service: 'menu.nav'
+    }
+}
+
+const Main = {
+    dashbord: {
+        name: 'dashbord'
     }
 }
 
@@ -50,6 +57,7 @@ const Blog = {
 
 
 export default {
+    Main,
     PageInfo,
     Login,
     Menu,

@@ -29,32 +29,36 @@
             return {
                 activeIndex: '',
                 isCollapse: false,
-                menuTree: {},
-                menuType: 'blog'
+                menuTree: {}
+            }
+        },
+        computed: {
+            menuType: {
+                set: function (newValue) {
+                    return newValue;
+                },
+                get: function () {
+                    return this.$route.name ? this.$route.name.split('.')[0] : 'blog'
+                }
             }
         },
         watch: {
-            'activeIndex': (newValue, oldValue) => {
-                console.log(newValue, oldValue)
-                this.bus.$emit('selectLeftMenu', this.menuType)
-            }
         },
         mounted() {
             let _this = this
-
-            //刷新选中侧边菜单
-            this.activeIndex = this.$route.path
-
 
             Menu.getMenuNav(_this.menuType)
                 .then(response => {
                     _this.menuTree = response.data[0]
                 });
+            _this.activeIndex = _this.$route.path
+
         },
         created() {
             let _this = this
             _this.bus.$on('selectMenuType', function (type) {
                 _this.menuType = type
+                _this.activeIndex = ''
                 Menu.getMenuNav(type).then(response => {
                     _this.menuTree = response.data[0]
                 });
