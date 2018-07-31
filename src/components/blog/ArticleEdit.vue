@@ -23,7 +23,9 @@
             <el-input v-model="article.tags"></el-input>
         </el-form-item>
         <el-form-item label="内容" required>
-            <mavon-editor v-model="article.context"></mavon-editor>
+            <mavon-editor v-model="article.context"
+                          @imgAdd="$imgAdd"
+                          @imgDel="$imgDel"></mavon-editor>
         </el-form-item>
         <el-form-item label="发布状态" prop="status">
             <el-col :span="1">
@@ -41,6 +43,7 @@
 
 <script>
     import Blog from '~/api/blog'
+    import Image from '~/api/image'
     import { mavonEditor } from 'mavon-editor'
     import 'mavon-editor/dist/css/index.css'
 
@@ -139,6 +142,11 @@
             Blog.getArticleDetail(this.article.id).then(response => {
                 _this.article = response.data
             })
+
+            // _this.$nextTick(() => {
+            //     // $vm.$imgUpdateByUrl 详情见本页末尾
+            //     $vm.$imgUpdateByUrl(0, base64内容)
+            // }
         },
         watch: {},
         methods: {
@@ -158,6 +166,19 @@
                 }
                 this.tagInputVisible = false;
                 this.inputValue = '';
+            },
+            $imgAdd(pos, $file){
+                // 第一步.将图片上传到服务器.
+                Image.upload($file).then((response) => {
+                    // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)
+                    // $vm.$img2Url 详情见本页末尾
+                    // $vm.$img2Url(pos, response.data.url);
+                })
+            },
+            $imgDel(pos){
+                // Image.delete($file).then((response) => {
+                //
+                // })
             }
         }
     }

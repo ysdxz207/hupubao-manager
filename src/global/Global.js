@@ -54,6 +54,11 @@ const Blog = {
     }
 }
 
+const Image = {
+    upload: {
+        service: 'image.upload'
+    }
+}
 
 
 export default {
@@ -61,5 +66,6 @@ export default {
     PageInfo,
     Login,
     Menu,
-    Blog
+    Blog,
+    Image
 }
