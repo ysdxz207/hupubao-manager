@@ -32,11 +32,11 @@
             pageSizeChangeHandler: function (pageSize) {
                 this.search = Object.assign({}, this.search, {pageSize})
                 this.Constants.PageInfo.pageSize = pageSize
-                this.bus.$emit('pageSizeChange', this.search)
+                this.bus.$emit('pagerChanged', this.search)
             },
             pageNumChangeHandler: function (pageNum) {
                 this.search = Object.assign({}, this.search, {pageNum})
-                this.bus.$emit('pageNumChange', this.search)
+                this.bus.$emit('pagerChanged', this.search)
             }
         }
     }

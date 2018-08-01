@@ -40,11 +40,7 @@
         },
         created () {
             let _this = this
-            _this.bus.$on('pageSizeChange', function (search) {
-                _this.search = search
-                _this.loadPage()
-            })
-            _this.bus.$on('pageNumChange', function (search) {
+            _this.bus.$on('pagerChanged', function (search) {
                 _this.search = search
                 _this.loadPage()
             })
