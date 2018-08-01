@@ -165,9 +165,6 @@ sessionStorage.removeItem = function (key, newValue) {
     window.dispatchEvent(removeItemEvent)
 }
 window.addEventListener('noAuthEvent', function (e) {
-    console.log(e.key)
-    console.log(e.oldValue)
-    console.log(e.newValue)
     if (e.key === 'token') {
         router.push({name: Global.Login.login.name})
     }

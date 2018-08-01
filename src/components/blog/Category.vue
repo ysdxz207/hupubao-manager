@@ -12,6 +12,7 @@
             :stripe="true"
             :border="true"
             :style="tableStyle"
+            height="1000"
             @selection-change="tableSelectionHander">
         <el-table-column
                 prop="name"

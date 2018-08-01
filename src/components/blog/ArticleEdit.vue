@@ -25,16 +25,17 @@
         <el-form-item label="内容" required>
             <mavon-editor v-model="article.context"
                           @imgAdd="$imgAdd"
-                          @imgDel="$imgDel"></mavon-editor>
+                          @imgDel="$imgDel"
+                          ref="md"></mavon-editor>
         </el-form-item>
         <el-form-item label="发布状态" prop="status">
             <el-col :span="1">
                 <el-switch
-                    v-model="article.status"
-                    active-color="#13ce66"
-                    inactive-color="#8D8D8D"
-                    :active-value="1"
-                    :inactive-value="0">
+                        v-model="article.status"
+                        active-color="#13ce66"
+                        inactive-color="#8D8D8D"
+                        :active-value="1"
+                        :inactive-value="0">
                 </el-switch>
             </el-col>
         </el-form-item>
@@ -44,9 +45,9 @@
 <script>
     import Blog from '~/api/blog'
     import Image from '~/api/image'
-    import { mavonEditor } from 'mavon-editor'
+    import {mavonEditor} from 'mavon-editor'
     import 'mavon-editor/dist/css/index.css'
-
+    import { Loading } from 'element-ui';
     export default {
         components: {
             mavonEditor
@@ -55,8 +56,8 @@
             return {
                 rules: {
                     title: [
-                        { required: true, message: '请输入标题', trigger: 'blur' },
-                        { min: 1, message: '标题不可为空', trigger: 'blur' }
+                        {required: true, message: '请输入标题', trigger: 'blur'},
+                        {min: 1, message: '标题不可为空', trigger: 'blur'}
                     ]
                 },
                 article: {
@@ -70,7 +71,7 @@
                 statusList: [
                     {status: 1, name: '发布'},
                     {status: 0, name: '不发布'}
-                    ]
+                ]
             }
         },
         created() {
@@ -79,7 +80,7 @@
             _this.bus.$on('save', function () {
                 Blog.editArticle(_this.article).then(response => {
                     if (response.errorCode === 'SUCCESS') {
-                        _this.$router.push({path:'/blog/article'})
+                        _this.$router.push({path: '/blog/article'})
                         this.$message({
                             type: 'success',
                             message: '编辑成功!'
@@ -102,7 +103,7 @@
                 }).then(() => {
                     Blog.deleteArticle(_this.article).then(response => {
                         if (response.errorCode === 'SUCCESS') {
-                            _this.$router.push({path:'/blog/article'})
+                            _this.$router.push({path: '/blog/article'})
                             this.$message({
                                 type: 'success',
                                 message: '删除成功!'
@@ -120,8 +121,7 @@
             })
 
         },
-        computed: {
-        },
+        computed: {},
         mounted() {
             let _this = this
 
@@ -139,14 +139,16 @@
             if (!this.article.id) {
                 return
             }
+            const loading = this.$loading({
+                lock: true,
+                text: '读取文章信息...',
+                background: 'rgba(255, 255, 255, 0.4)'
+            });
             Blog.getArticleDetail(this.article.id).then(response => {
                 _this.article = response.data
+                loading.close()
             })
 
-            // _this.$nextTick(() => {
-            //     // $vm.$imgUpdateByUrl 详情见本页末尾
-            //     $vm.$imgUpdateByUrl(0, base64内容)
-            // }
         },
         watch: {},
         methods: {
@@ -167,15 +169,15 @@
                 this.tagInputVisible = false;
                 this.inputValue = '';
             },
-            $imgAdd(pos, $file){
+            $imgAdd(pos, $file) {
                 // 第一步.将图片上传到服务器.
                 Image.upload($file).then((response) => {
                     // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)
                     // $vm.$img2Url 详情见本页末尾
-                    // $vm.$img2Url(pos, response.data.url);
+                    this.$refs.md.$img2Url(pos, response.data.url);
                 })
             },
-            $imgDel(pos){
+            $imgDel(pos) {
                 // Image.delete($file).then((response) => {
                 //
                 // })
@@ -190,5 +192,4 @@
         margin-bottom: 100px;
         padding-right: 20px;
     }
-
 </style>

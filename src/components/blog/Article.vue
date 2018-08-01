@@ -59,11 +59,12 @@
         </el-table>
 
         <el-tooltip class="item" effect="dark" content="写文章" placement="top-start">
-        <el-button type="success"
-                   icon="el-icon-edit"
-                   class="btn-new-article"
-                   circle
-                   @click.native="editHandler"></el-button>
+            <el-button type="success"
+                       icon="el-icon-edit"
+                       class="btn-new-article"
+                       circle
+                       v-drag
+                       @click.stop="editHandler(undefined, $event)"></el-button>
         </el-tooltip>
     </div>
 </template>
@@ -74,6 +75,25 @@
 
     export default {
         components: {
+        },
+        directives: {
+            drag(el, bindings) {
+                el.onmousedown = function (e) {
+                    var disx = e.pageX - el.offsetLeft
+                    var disy = e.pageY - el.offsetTop
+                    document.onmousemove = function (e) {
+                        e.target.classList.add('draging')
+                        el.style.left = e.pageX - disx + 'px'
+                        el.style.top = e.pageY - disx + 'px'
+                    }
+                    document.onmouseup = function (e) {
+                        document.onmousemove = document.onmouseup = null
+                        setTimeout(function () {
+                            e.target.classList.remove('draging')
+                        }, 500)
+                    }
+                }
+            }
         },
         created () {
             let _this = this
@@ -141,8 +161,12 @@
             previewHandler(row) {
                 window.open('http://hupubao.win/article/detail?id=' + row.id)
             },
-            editHandler(row) {
-                this.$router.push({name: this.Constants.Blog.articleEdit.name, query: {id: row.id}})
+            editHandler(row, e) {
+                if (e && e.target.classList.contains('draging')) {
+                    return
+                }
+                let query = row ? {id: row.id} : {}
+                this.$router.push({name: this.Constants.Blog.articleEdit.name, query: query})
             },
             loadPage() {
                 let _this = this
@@ -170,7 +194,8 @@
         position: fixed;
         top: 40vh;
         left: 50vw;
-        opacity: 0.35
+        opacity: 0.35;
+        z-index: 999;
     }
     .btn-new-article:hover {
         opacity: 1;
