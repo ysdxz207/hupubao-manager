@@ -73,7 +73,7 @@
                 let searchInfo = {
                     pageNum: this.page.pageNum,
                     pageSize: this.Constants.PageInfo.pageSize,
-                    totalCount: this.page.total
+                    total: this.page.total
                 }
                 searchInfo = Object.assign({}, this.search, searchInfo)
                 return searchInfo

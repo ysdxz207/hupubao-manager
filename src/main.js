@@ -5,6 +5,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 import './assets/icon/iconfont.css'
 import Global from '~/global/Global'
+import Directives from '~/global/Directives'
 
 
 const Index = () => import('./components/Index.vue').then(m => m.default)
@@ -29,6 +30,7 @@ const Breadcrumb = () => import('./components/Breadcrumb.vue').then(m => m.defau
 
 Vue.use(VueRouter)
 Vue.use(ElementUI)
+Vue.use(Directives)
 
 Vue.prototype.Constants = Global
 
@@ -169,5 +171,7 @@ window.addEventListener('noAuthEvent', function (e) {
         router.push({name: Global.Login.login.name})
     }
 })
+
+
 
 Vue.prototype.bus = new Vue()

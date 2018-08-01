@@ -25,6 +25,7 @@
             _this.bus.$off('pager')
             _this.bus.$on('pager', function (search) {
                 _this.search = search
+                console.log(_this.search)
             })
         },
         watch: {},

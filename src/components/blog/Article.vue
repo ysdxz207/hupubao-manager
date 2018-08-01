@@ -77,23 +77,6 @@
         components: {
         },
         directives: {
-            drag(el, bindings) {
-                el.onmousedown = function (e) {
-                    var disx = e.pageX - el.offsetLeft
-                    var disy = e.pageY - el.offsetTop
-                    document.onmousemove = function (e) {
-                        e.target.classList.add('draging')
-                        el.style.left = e.pageX - disx + 'px'
-                        el.style.top = e.pageY - disx + 'px'
-                    }
-                    document.onmouseup = function (e) {
-                        document.onmousemove = document.onmouseup = null
-                        setTimeout(function () {
-                            e.target.classList.remove('draging')
-                        }, 500)
-                    }
-                }
-            }
         },
         created () {
             let _this = this
