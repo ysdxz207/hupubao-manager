@@ -81,7 +81,7 @@ blog.editCategory = function (category) {
 blog.deleteTag = function (tag) {
     return request({
         data: {
-            service: Global.Blog.tagDeleteg.service,
+            service: Global.Blog.tagDelete.service,
             bizContent: tag
         }
     })
@@ -90,7 +90,7 @@ blog.deleteTag = function (tag) {
 blog.editTag = function (tag) {
     return request({
         data: {
-            service: Global.Blog.tagEditag.service,
+            service: Global.Blog.tagEdit.service,
             bizContent: tag
         }
     })

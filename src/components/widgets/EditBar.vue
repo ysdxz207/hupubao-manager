@@ -61,6 +61,6 @@
         background-color: #eeeeee;
         position: fixed;
         bottom: 0;
-        z-index: 2;
+        z-index: 9999;
     }
 </style>

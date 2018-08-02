@@ -19,10 +19,19 @@
                     prop="name"
                     label="分类名称"
                     width="240"
+                    align="center"
+                    show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column
+                    prop="createTime"
+                    label="创建时间"
+                    width="240"
+                    align="center"
                     show-overflow-tooltip>
             </el-table-column>
             <el-table-column
                     label="操作"
+                    align="center"
                     width="100">
                 <template slot-scope="scope">
                     <el-button @click="deleteHandler(scope.row)" type="text" size="small">删除</el-button>
@@ -46,6 +55,7 @@
                    @keyup.enter.native="editHandler()">
             <el-form :model="category"
                      :rules="rules"
+                     ref="category"
                      label-width="80px">
                 <el-form-item label="分类名" prop="name">
                     <el-input
@@ -75,7 +85,7 @@
                 _this.search = search
                 _this.loadPage()
             })
-            _this.bus.$on(this.Constants.Blog.article.name, function (search) {
+            _this.bus.$on(_this.Constants.Blog.article.name, function (search) {
                 _this.search = search
                 _this.loadPage()
             })
@@ -90,8 +100,7 @@
                 category: {},
                 rules: {
                     name: [
-                        {required: true, message: '请输入分类名称', trigger: 'blur'},
-                        {min: 1, message: '分类名称不可为空', trigger: 'blur'}
+                        {required: true, message: '请输入分类名称', trigger: 'blur'}
                     ]
                 }
             }
@@ -164,16 +173,43 @@
             },
             editHandler(row) {
                 let _this = this
-                if (!row
-                    && !_this.dialogFormVisible) {
+                if (row) {
+                    _this.category = row
+                }
+                if (!_this.dialogFormVisible) {
                     //显示编辑
+
                     _this.dialogFormVisible = true
                     return
                 }
 
-                if (!row && _this.dialogFormVisible) {
+                if (_this.dialogFormVisible) {
+                    let newCategory = !row
 
-                    _this.dialogFormVisible = false
+                    _this.$refs['category'].validate((valid) => {
+                        if (valid) {
+                            console.log(newCategory)
+                            Blog.editCategory(newCategory ? _this.category : row).then(response => {
+                                if (response.errorCode === 'SUCCESS') {
+
+                                    _this.loadPage()
+                                    _this.$message({
+                                        type: 'success',
+                                        message: '编辑成功!'
+                                    })
+                                    _this.dialogFormVisible = false
+
+                                } else {
+                                    _this.$message({
+                                        type: 'error',
+                                        message: '编辑失败!'
+                                    })
+                                }
+                            })
+                        } else {
+                            return false;
+                        }
+                    })
                     return
                 }
 

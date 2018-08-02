@@ -23,7 +23,7 @@
             <el-form-item label="标签">
                 <el-input v-model="article.tags"></el-input>
             </el-form-item>
-            <el-form-item label="内容" required>
+            <el-form-item label="内容" required prop="context">
                 <mavon-editor v-model="article.context"
                               @imgAdd="$imgAdd"
                               @imgDel="$imgDel"
@@ -61,8 +61,10 @@
             return {
                 rules: {
                     title: [
-                        {required: true, message: '请输入标题', trigger: 'blur'},
-                        {min: 1, message: '标题不可为空', trigger: 'blur'}
+                        {required: true, message: '请输入标题', trigger: 'blur'}
+                    ],
+                    context: [
+                        {required: true, message: '请输入文章内容', trigger: 'blur'}
                     ]
                 },
                 article: {
@@ -83,28 +85,27 @@
             let _this = this
             _this.bus.$off('save')
             _this.bus.$on('save', function () {
-                this.$refs[formName].validate((valid) => {
+                _this.$refs['article'].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
+                        Blog.editArticle(_this.article).then(response => {
+                            if (response.errorCode === 'SUCCESS') {
+                                _this.$router.push({path: '/blog/article'})
+                                this.$message({
+                                    type: 'success',
+                                    message: '编辑成功!'
+                                })
+                            } else {
+                                this.$message({
+                                    type: 'error',
+                                    message: '编辑失败!'
+                                })
+                            }
+                        })
                     } else {
-                        console.log('error submit!!');
                         return false;
                     }
                 })
-                Blog.editArticle(_this.article).then(response => {
-                    if (response.errorCode === 'SUCCESS') {
-                        _this.$router.push({path: '/blog/article'})
-                        this.$message({
-                            type: 'success',
-                            message: '编辑成功!'
-                        })
-                    } else {
-                        this.$message({
-                            type: 'error',
-                            message: '编辑失败!'
-                        })
-                    }
-                })
+
             })
             _this.bus.$off('delete')
             _this.bus.$on('delete', function () {
