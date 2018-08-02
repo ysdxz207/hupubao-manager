@@ -103,12 +103,18 @@ const routes = [
             {
                 name: 'afu',
                 path: '/',
-                component: Afu
+                components: {
+                    default: Afu,
+                    footer: Pager
+                }
             },
             {
                 name: 'afu.type',
                 path: 'type',
-                component: AfuType
+                components: {
+                    default: AfuType,
+                    footer: Pager
+                }
             }
         ]
     },

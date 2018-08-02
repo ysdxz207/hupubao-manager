@@ -81,6 +81,18 @@ const Utils = function () {
     }
 }
 
+const Afu = {
+    list: {
+        name: 'afu',
+        service: 'afu.list'
+    },
+    delete: {
+        service: 'afu.delete'
+    },
+    edit: {
+        service: 'afu.edit'
+    }
+}
 export default {
     Utils,
     Main,
@@ -88,5 +100,6 @@ export default {
     Login,
     Menu,
     Blog,
-    Image
+    Image,
+    Afu
 }
