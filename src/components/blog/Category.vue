@@ -6,13 +6,12 @@
             element-loading-background="rgba(80, 90, 100, 0.3)"
 
             highlight-current-row
-            ref="tableCategoryList"
+            ref="table"
             :data="page.list"
             tooltip-effect="dark"
             :stripe="true"
             :border="true"
-            :style="tableStyle"
-            height="1000"
+            height="100%"
             @selection-change="tableSelectionHander">
         <el-table-column
                 prop="name"
@@ -40,6 +39,7 @@
         },
         created () {
             let _this = this
+            _this.bus.$off('pagerChanged')
             _this.bus.$on('pagerChanged', function (search) {
                 _this.search = search
                 _this.loadPage()
@@ -48,22 +48,18 @@
                 _this.search = search
                 _this.loadPage()
             })
+
         },
         data () {
             return {
                 page: {},
                 search: {},
-                loading: false,
-                tableStyle: {
-                    maxHeight: "600px"
-                }
+                loading: false
             }
         },
         mounted () {
             let _this = this;
             _this.loadPage()
-
-            this.tableStyle.maxHeight = document.querySelector('.el-main').offsetHeight + "px"
         },
         computed: {
             pageInfo: function () {

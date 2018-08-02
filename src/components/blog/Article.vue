@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="height: 100%;">
         <el-table
                 v-loading="loading"
                 element-loading-text="读取数据中..."
@@ -7,13 +7,12 @@
                 element-loading-background="rgba(80, 90, 100, 0.3)"
 
                 highlight-current-row
-                ref="tableArticleList"
+                ref="table"
                 :data="page.list"
                 tooltip-effect="dark"
                 :stripe="true"
                 :border="true"
-                :style="tableStyle"
-                height="1000"
+                height="100%"
                 @selection-change="tableSelectionHander">
             <el-table-column
                     prop="title"
@@ -95,16 +94,12 @@
             let _this = this;
             _this.loadPage()
 
-            this.tableStyle.maxHeight = document.querySelector('.el-main').offsetHeight + "px"
         },
         data () {
             return {
                 page: {},
                 search: {},
-                loading: false,
-                tableStyle: {
-                    maxHeight: "600px"
-                }
+                loading: false
             }
         },
         computed: {
@@ -163,10 +158,6 @@
 
 <style lang="less" scoped>
 
-
-    .el-table {
-        overflow: hidden;
-    }
 
     .btn-new-article {
         position: fixed;
