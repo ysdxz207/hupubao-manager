@@ -83,6 +83,14 @@
             let _this = this
             _this.bus.$off('save')
             _this.bus.$on('save', function () {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        alert('submit!');
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                })
                 Blog.editArticle(_this.article).then(response => {
                     if (response.errorCode === 'SUCCESS') {
                         _this.$router.push({path: '/blog/article'})
