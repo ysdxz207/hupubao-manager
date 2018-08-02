@@ -1,45 +1,48 @@
 <template>
-    <el-form :model="article"
-             :rules="rules"
-             ref="article"
-             label-width="80px"
-             class="form-article-edit">
-        <el-form-item label="标题" prop="title">
-            <el-input v-model="article.title"></el-input>
-        </el-form-item>
-        <el-form-item label="分类" prop="categoryId">
-            <el-select
-                    clearable
-                    v-model="article.categoryId"
-                    style="width:100%"
-                    placeholder="默认分类">
-                <el-option :label="category.name"
-                           :value="category.id"
-                           v-for="(category, index) in categoryList"
-                           :key="index"></el-option>
-            </el-select>
-        </el-form-item>
-        <el-form-item label="标签">
-            <el-input v-model="article.tags"></el-input>
-        </el-form-item>
-        <el-form-item label="内容" required>
-            <mavon-editor v-model="article.context"
-                          @imgAdd="$imgAdd"
-                          @imgDel="$imgDel"
-                          ref="md"></mavon-editor>
-        </el-form-item>
-        <el-form-item label="发布状态" prop="status">
-            <el-col :span="1">
-                <el-switch
-                        v-model="article.status"
-                        active-color="#13ce66"
-                        inactive-color="#8D8D8D"
-                        :active-value="1"
-                        :inactive-value="0">
-                </el-switch>
-            </el-col>
-        </el-form-item>
-    </el-form>
+    <div style="height: 100%;">
+        <el-form :model="article"
+                 :rules="rules"
+                 ref="article"
+                 label-width="80px"
+                 class="form-article-edit">
+            <el-form-item label="标题" prop="title">
+                <el-input v-model="article.title"></el-input>
+            </el-form-item>
+            <el-form-item label="分类" prop="categoryId">
+                <el-select
+                        clearable
+                        v-model="article.categoryId"
+                        style="width:100%"
+                        placeholder="默认分类">
+                    <el-option :label="category.name"
+                               :value="category.id"
+                               v-for="(category, index) in categoryList"
+                               :key="index"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="标签">
+                <el-input v-model="article.tags"></el-input>
+            </el-form-item>
+            <el-form-item label="内容" required>
+                <mavon-editor v-model="article.context"
+                              @imgAdd="$imgAdd"
+                              @imgDel="$imgDel"
+                              ref="md"></mavon-editor>
+            </el-form-item>
+            <el-form-item label="发布状态" prop="status">
+                <el-col :span="1">
+                    <el-switch
+                            v-model="article.status"
+                            active-color="#13ce66"
+                            inactive-color="#8D8D8D"
+                            :active-value="1"
+                            :inactive-value="0">
+                    </el-switch>
+                </el-col>
+            </el-form-item>
+        </el-form>
+        <edit-bar></edit-bar>
+    </div>
 </template>
 
 <script>
@@ -47,10 +50,12 @@
     import Image from '~/api/image'
     import {mavonEditor} from 'mavon-editor'
     import 'mavon-editor/dist/css/index.css'
-    import { Loading } from 'element-ui';
+    import EditBar from '~/components/widgets/EditBar'
+
     export default {
         components: {
-            mavonEditor
+            mavonEditor,
+            EditBar
         },
         data() {
             return {
@@ -95,7 +100,7 @@
             })
             _this.bus.$off('delete')
             _this.bus.$on('delete', function () {
-                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning',
@@ -103,7 +108,7 @@
                 }).then(() => {
                     Blog.deleteArticle(_this.article).then(response => {
                         if (response.errorCode === 'SUCCESS') {
-                            _this.$router.push({path: '/blog/article'})
+                            _this.$router.push({name: _this.Constants.Blog.article.name})
                             this.$message({
                                 type: 'success',
                                 message: '删除成功!'
@@ -188,6 +193,7 @@
 
 <style lang="less" scoped>
     .form-article-edit {
+        height: 100%;
         margin-top: 10px;
         margin-bottom: 100px;
         padding-right: 20px;

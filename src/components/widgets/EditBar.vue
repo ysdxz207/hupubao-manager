@@ -1,6 +1,6 @@
 <template>
-    <el-row>
-        <el-col :span="8">
+    <el-row class="edit-bar">
+        <el-col :span="7">
             <el-button-group>
                 <el-button type="danger"
                            size="mini"
@@ -8,7 +8,7 @@
                            @click.native="deleteHandler">删除</el-button>
             </el-button-group>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="7">
             <el-button-group>
                 <el-button type="info"
                            size="mini"
@@ -30,7 +30,8 @@
 <script>
 
     export default {
-        components: {},
+        components: {
+        },
         data() {
             return {
             }
@@ -53,4 +54,13 @@
 </script>
 
 <style lang="less" scoped>
+    .edit-bar {
+        width: 90vw;
+        height: 40px;
+        line-height: 40px;
+        background-color: #eeeeee;
+        position: fixed;
+        bottom: 0;
+        z-index: 2;
+    }
 </style>

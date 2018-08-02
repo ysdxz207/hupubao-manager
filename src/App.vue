@@ -53,4 +53,15 @@
         background: #EDEDED;
     }
 
+
+    .float-btn {
+        position: fixed;
+        top: 40vh;
+        left: 50vw;
+        opacity: 0.35;
+        z-index: 999;
+    }
+    .float-btn:hover {
+        opacity: 1;
+    }
 </style>

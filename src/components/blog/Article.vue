@@ -60,7 +60,7 @@
         <el-tooltip class="item" effect="dark" content="写文章" placement="top-start">
             <el-button type="success"
                        icon="el-icon-edit"
-                       class="btn-new-article"
+                       class="float-btn"
                        circle
                        v-drag
                        @click.stop="editHandler(undefined, $event)"></el-button>
@@ -159,14 +159,5 @@
 <style lang="less" scoped>
 
 
-    .btn-new-article {
-        position: fixed;
-        top: 40vh;
-        left: 50vw;
-        opacity: 0.35;
-        z-index: 999;
-    }
-    .btn-new-article:hover {
-        opacity: 1;
-    }
+
 </style>

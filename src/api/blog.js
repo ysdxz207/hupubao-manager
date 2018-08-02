@@ -60,4 +60,40 @@ blog.deleteArticle = function (article) {
     })
 }
 
+blog.deleteCategory = function (category) {
+    return request({
+        data: {
+            service: Global.Blog.categoryDelete.service,
+            bizContent: category
+        }
+    })
+}
+
+blog.editCategory = function (category) {
+    return request({
+        data: {
+            service: Global.Blog.categoryEdit.service,
+            bizContent: category
+        }
+    })
+}
+
+blog.deleteTag = function (tag) {
+    return request({
+        data: {
+            service: Global.Blog.tagDeleteg.service,
+            bizContent: tag
+        }
+    })
+}
+
+blog.editTag = function (tag) {
+    return request({
+        data: {
+            service: Global.Blog.tagEditag.service,
+            bizContent: tag
+        }
+    })
+}
+
 export default blog;

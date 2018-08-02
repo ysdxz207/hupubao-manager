@@ -63,8 +63,7 @@ const routes = [
                 name: Global.Blog.articleEdit.name,
                 path: 'article/edit', components: {
                     default: ArticleEdit,
-                    breadcrumb: Breadcrumb,
-                    footer: EditBar
+                    breadcrumb: Breadcrumb
                 }
             },
             {

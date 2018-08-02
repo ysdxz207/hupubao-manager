@@ -48,10 +48,22 @@ const Blog = {
         name: 'blog.category',
         service: 'category.list'
     },
+    categoryDelete: {
+        service: 'category.delete'
+    },
+    categoryEdit: {
+        service: 'category.edit'
+    },
     tag: {
         name: 'blog.tag',
         service: 'tag.list'
-    }
+    },
+    tagDelete: {
+        service: 'tag.delete'
+    },
+    tagEdit: {
+        service: 'tag.edit'
+    },
 }
 
 const Image = {
@@ -60,8 +72,17 @@ const Image = {
     }
 }
 
+const Utils = function () {
+    Array.prototype.remove = function (item) {
+        let index = this.indexOf(item)
+        if (index > -1) {
+            this.slice(index, 1)
+        }
+    }
+}
 
 export default {
+    Utils,
     Main,
     PageInfo,
     Login,
