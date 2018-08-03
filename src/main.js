@@ -24,6 +24,7 @@ const AccessMenu = () => import('./components/permission/AccessMenu.vue').then(m
 const AccessPermissions = () => import('./components/permission/AccessPermissions.vue').then(m => m.default)
 const Afu = () => import('./components/afu/Afu.vue').then(m => m.default)
 const AfuType = () => import('./components/afu/AfuType.vue').then(m => m.default)
+const AfuEdit = () => import('./components/afu/AfuEdit.vue').then(m => m.default)
 const SearchArticle = () => import('./components/search/blog/SearchArticle.vue').then(m => m.default)
 const Breadcrumb = () => import('./components/Breadcrumb.vue').then(m => m.default)
 
@@ -109,11 +110,18 @@ const routes = [
                 }
             },
             {
-                name: 'afu.type',
+                name: Global.Afu.type.name,
                 path: 'type',
                 components: {
                     default: AfuType,
                     footer: Pager
+                }
+            },
+            {
+                name: Global.Afu.edit.name,
+                path: '/afu/edit',
+                components: {
+                    default: AfuEdit
                 }
             }
         ]

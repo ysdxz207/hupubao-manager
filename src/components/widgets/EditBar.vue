@@ -47,7 +47,7 @@
                 this.bus.$emit('delete')
             },
             cancelHandler() {
-                this.$router.push({name: this.Constants.Blog.article.name})
+                this.bus.$emit('cancel')
             }
         }
     }

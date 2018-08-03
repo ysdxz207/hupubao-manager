@@ -12,11 +12,24 @@ afu.getAfus = function(params) {
     })
 }
 
-afu.deleteAfu = function (tag) {
+afu.getAfuDetail = function(id) {
+    return request({
+        data: {
+            service: Global.Afu.detail.service,
+            bizContent: {
+                id
+            }
+        }
+    })
+}
+
+afu.deleteAfu = function (id) {
     return request({
         data: {
             service: Global.Afu.delete.service,
-            bizContent: tag
+            bizContent: {
+                id
+            }
         }
     })
 }

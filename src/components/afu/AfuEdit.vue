@@ -1,44 +1,18 @@
 <template>
     <div style="height: 100%;">
-        <el-form :model="article"
+        <el-form :model="afu"
                  :rules="rules"
-                 ref="article"
+                 ref="afu"
                  label-width="80px"
-                 class="form-article-edit">
-            <el-form-item label="标题" prop="title">
-                <el-input v-model="article.title"></el-input>
+                 class="form-afu-edit">
+            <el-form-item label="名称" prop="name">
+                <el-input v-model="afu.name"></el-input>
             </el-form-item>
-            <el-form-item label="分类" prop="categoryId">
-                <el-select
-                        clearable
-                        v-model="article.categoryId"
-                        style="width:100%"
-                        placeholder="默认分类">
-                    <el-option :label="category.name"
-                               :value="category.id"
-                               v-for="(category, index) in categoryList"
-                               :key="index"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="标签">
-                <el-input v-model="article.tags"></el-input>
-            </el-form-item>
-            <el-form-item label="内容" required prop="context">
-                <mavon-editor v-model="article.context"
+            <el-form-item label="内容" required prop="content">
+                <mavon-editor v-model="afu.content"
                               @imgAdd="$imgAdd"
                               @imgDel="$imgDel"
                               ref="md"></mavon-editor>
-            </el-form-item>
-            <el-form-item label="发布状态" prop="status">
-                <el-col :span="1">
-                    <el-switch
-                            v-model="article.status"
-                            active-color="#13ce66"
-                            inactive-color="#8D8D8D"
-                            :active-value="1"
-                            :inactive-value="0">
-                    </el-switch>
-                </el-col>
             </el-form-item>
         </el-form>
         <edit-bar></edit-bar>
@@ -46,7 +20,7 @@
 </template>
 
 <script>
-    import Blog from '~/api/blog'
+    import Afu from '~/api/afu'
     import Image from '~/api/image'
     import {mavonEditor} from 'mavon-editor'
     import 'mavon-editor/dist/css/index.css'
@@ -60,14 +34,14 @@
         data() {
             return {
                 rules: {
-                    title: [
-                        {required: true, message: '请输入标题', trigger: 'blur'}
+                    name: [
+                        {required: true, message: '请输入名称', trigger: 'blur'}
                     ],
                     context: [
-                        {required: true, message: '请输入文章内容', trigger: 'blur'}
+                        {required: true, message: '请输入阿福内容', trigger: 'blur'}
                     ]
                 },
-                article: {
+                afu: {
                     id: this.$route.query.id,
                     status: 1
                 },
@@ -85,11 +59,11 @@
             let _this = this
             _this.bus.$off('save')
             _this.bus.$on('save', function () {
-                _this.$refs['article'].validate((valid) => {
+                _this.$refs['afu'].validate((valid) => {
                     if (valid) {
-                        Blog.editArticle(_this.article).then(response => {
+                        Afu.editAfu(_this.afu).then(response => {
                             if (response.errorCode === 'SUCCESS') {
-                                _this.$router.push({path: '/blog/article'})
+                                _this.$router.push({name: _this.Constants.Afu.list.name})
                                 this.$message({
                                     type: 'success',
                                     message: '编辑成功!'
@@ -115,9 +89,9 @@
                     type: 'warning',
                     center: true
                 }).then(() => {
-                    Blog.deleteArticle(_this.article).then(response => {
+                    Afu.deleteAfu(_this.afu.id).then(response => {
                         if (response.errorCode === 'SUCCESS') {
-                            _this.$router.push({name: _this.Constants.Blog.article.name})
+                            _this.$router.push({name: _this.Constants.Afu.list.name})
                             this.$message({
                                 type: 'success',
                                 message: '删除成功!'
@@ -136,7 +110,7 @@
 
             _this.bus.$off('cancel')
             _this.bus.$on('cancel', function () {
-                _this.$router.push({name: this.Constants.Blog.article.name})
+                _this.$router.push({name: this.Constants.Afu.list.name})
             })
 
         },
@@ -144,27 +118,16 @@
         mounted() {
             let _this = this
 
-            Blog.getArticleCategories({
-                pageSize: 1024
-            }).then(response => {
-                this.categoryList = response.list
-            })
-            // Blog.getArticleTags({
-            //     pageSize: 1024
-            // }).then(response => {
-            //     this.tagList = response.list
-            // })
-
-            if (!this.article.id) {
+            if (!this.afu.id) {
                 return
             }
             const loading = this.$loading({
                 lock: true,
-                text: '读取文章信息...',
+                text: '读取阿福信息...',
                 background: 'rgba(255, 255, 255, 0.4)'
             });
-            Blog.getArticleDetail(this.article.id).then(response => {
-                _this.article = response.data
+            Afu.getAfuDetail(this.afu.id).then(response => {
+                _this.afu = response.data
                 loading.close()
             })
 
@@ -172,7 +135,7 @@
         watch: {},
         methods: {
             tagCloseHandler(tag) {
-                this.article.tagList.splice(this.article.tagList.indexOf(tag), 1);
+                this.afu.tagList.splice(this.afu.tagList.indexOf(tag), 1);
             },
             showTagInput() {
                 this.tagInputVisible = true;
@@ -183,7 +146,7 @@
             handleInputConfirm() {
                 let inputValue = this.inputValue;
                 if (inputValue) {
-                    this.article.tagList.push(inputValue);
+                    this.afu.tagList.push(inputValue);
                 }
                 this.tagInputVisible = false;
                 this.inputValue = '';
@@ -206,7 +169,7 @@
 </script>
 
 <style lang="less" scoped>
-    .form-article-edit {
+    .form-afu-edit {
         height: 100%;
         margin-top: 10px;
         margin-bottom: 100px;

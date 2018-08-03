@@ -34,7 +34,6 @@
                     align="center"
                     width="100">
                 <template slot-scope="scope">
-                    <el-button @click="deleteHandler(scope.row)" type="text" size="small">删除</el-button>
                     <el-button @click="editHandler(scope.row)" type="text" size="small">编辑</el-button>
                 </template>
             </el-table-column>
@@ -49,26 +48,6 @@
                        v-drag
                        @click.stop="editHandler(undefined, $event)"></el-button>
         </el-tooltip>
-
-        <el-dialog title="添加阿福"
-                   :visible.sync="dialogFormVisible"
-                   @keyup.enter.native="editHandler()">
-            <el-form :model="afu"
-                     :rules="rules"
-                     ref="afu"
-                     label-width="80px">
-                <el-form-item label="阿福名" prop="name">
-                    <el-input
-                            clearable
-                            v-model="afu.name"
-                            auto-complete="off"></el-input>
-                </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="editHandler()">确 定</el-button>
-            </div>
-        </el-dialog>
 
     </div>
 </template>
@@ -85,7 +64,7 @@
                 _this.search = search
                 _this.loadPage()
             })
-            _this.bus.$on(_this.Constants.Blog.article.name, function (search) {
+            _this.bus.$on(_this.Constants.Afu.list.name, function (search) {
                 _this.search = search
                 _this.loadPage()
             })
@@ -146,74 +125,13 @@
                         _this.toggleLoading()
                     })
             },
-            deleteHandler(row) {
-                let _this = this
-                this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning',
-                    center: true
-                }).then(() => {
-                    Blog.deleteAfu(row).then(response => {
-                        if (response.errorCode === 'SUCCESS') {
-                            _this.page.list = _this.page.list.filter(t => t.id != row.id)
-                            this.$message({
-                                type: 'success',
-                                message: '删除成功!'
-                            })
-                        } else {
-                            this.$message({
-                                type: 'error',
-                                message: '删除失败!'
-                            })
-                        }
-                    })
-                }).catch(() => {
-                })
-            },
             editHandler(row) {
                 let _this = this
+                let query = {}
                 if (row) {
-                    _this.afu = row
+                    query = {id: row.id}
                 }
-
-                if (!_this.dialogFormVisible) {
-                    //显示编辑
-
-                    _this.dialogFormVisible = true
-                    return
-                }
-
-                if (_this.dialogFormVisible) {
-                    let newAfu = !row
-
-                    _this.$refs['afu'].validate((valid) => {
-                        if (valid) {
-                            console.log(newAfu)
-                            Blog.editAfu(newAfu ? _this.afu : row).then(response => {
-                                if (response.errorCode === 'SUCCESS') {
-
-                                    _this.loadPage()
-                                    _this.$message({
-                                        type: 'success',
-                                        message: '编辑成功!'
-                                    })
-                                    _this.dialogFormVisible = false
-
-                                } else {
-                                    _this.$message({
-                                        type: 'error',
-                                        message: '编辑失败!'
-                                    })
-                                }
-                            })
-                        } else {
-                            return false;
-                        }
-                    })
-                    return
-                }
-
+                _this.$router.push({name: _this.Constants.Afu.edit.name, query: query})
             }
         },
         watch: {}

@@ -86,11 +86,18 @@ const Afu = {
         name: 'afu',
         service: 'afu.list'
     },
+    detail: {
+        service: 'afu.detail'
+    },
     delete: {
         service: 'afu.delete'
     },
     edit: {
+        name: 'afu.edit',
         service: 'afu.edit'
+    },
+    type: {
+        name: 'afu.type'
     }
 }
 export default {
