@@ -56,8 +56,8 @@
 
     .float-btn {
         position: fixed;
-        top: 40vh;
-        left: 50vw;
+        top: 30vh;
+        right: 20vw;
         opacity: 0.35;
         z-index: 999;
     }

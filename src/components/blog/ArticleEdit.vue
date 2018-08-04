@@ -41,7 +41,9 @@
                 </el-col>
             </el-form-item>
         </el-form>
-        <edit-bar></edit-bar>
+        <edit-bar :save="saveHandler"
+                  :delete="deleteHandler"
+                  :cancel="cancelHandler"></edit-bar>
     </div>
 </template>
 
@@ -83,61 +85,6 @@
         },
         created() {
             let _this = this
-            _this.bus.$off('save')
-            _this.bus.$on('save', function () {
-                _this.$refs['article'].validate((valid) => {
-                    if (valid) {
-                        Blog.editArticle(_this.article).then(response => {
-                            if (response.errorCode === 'SUCCESS') {
-                                _this.$router.push({path: '/blog/article'})
-                                this.$message({
-                                    type: 'success',
-                                    message: '编辑成功!'
-                                })
-                            } else {
-                                this.$message({
-                                    type: 'error',
-                                    message: '编辑失败!'
-                                })
-                            }
-                        })
-                    } else {
-                        return false;
-                    }
-                })
-
-            })
-            _this.bus.$off('delete')
-            _this.bus.$on('delete', function () {
-                this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning',
-                    center: true
-                }).then(() => {
-                    Blog.deleteArticle(_this.article).then(response => {
-                        if (response.errorCode === 'SUCCESS') {
-                            _this.$router.push({name: _this.Constants.Blog.article.name})
-                            this.$message({
-                                type: 'success',
-                                message: '删除成功!'
-                            })
-                        } else {
-                            this.$message({
-                                type: 'error',
-                                message: '删除失败!'
-                            })
-                        }
-                    })
-                }).catch(() => {
-                })
-
-            })
-
-            _this.bus.$off('cancel')
-            _this.bus.$on('cancel', function () {
-                _this.$router.push({name: this.Constants.Blog.article.name})
-            })
 
         },
         computed: {},
@@ -200,6 +147,57 @@
                 // Image.delete($file).then((response) => {
                 //
                 // })
+            },
+            saveHandler() {
+                let _this = this
+                _this.$refs['article'].validate((valid) => {
+                    if (valid) {
+                        Blog.editArticle(_this.article).then(response => {
+                            if (response.errorCode === 'SUCCESS') {
+                                _this.$router.push({path: '/blog/article'})
+                                this.$message({
+                                    type: 'success',
+                                    message: '编辑成功!'
+                                })
+                            } else {
+                                this.$message({
+                                    type: 'error',
+                                    message: '编辑失败!'
+                                })
+                            }
+                        })
+                    } else {
+                        return false;
+                    }
+                })
+            },
+            deleteHandler() {
+                let _this = this
+                _this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                    center: true
+                }).then(() => {
+                    Blog.deleteArticle(_this.article).then(response => {
+                        if (response.errorCode === 'SUCCESS') {
+                            _this.$router.push({name: _this.Constants.Blog.article.name})
+                            _this.$message({
+                                type: 'success',
+                                message: '删除成功!'
+                            })
+                        } else {
+                            _this.$message({
+                                type: 'error',
+                                message: '删除失败!'
+                            })
+                        }
+                    })
+                }).catch(() => {
+                })
+            },
+            cancelHandler() {
+                this.$router.push({name: this.Constants.Blog.article.name})
             }
         }
     }

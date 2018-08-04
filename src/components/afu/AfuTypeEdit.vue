@@ -1,36 +1,45 @@
 <template>
     <div style="height: 100%;">
-        <el-form :model="afu"
+        <el-form :model="afuType"
                  :rules="rules"
-                 ref="afu"
+                 ref="afuType"
                  label-width="80px"
-                 class="form-afu-edit">
+                 class="form-afuType-edit">
             <el-form-item label="名称" prop="name">
-                <el-input v-model="afu.name"></el-input>
+                <el-input v-model="afuType.name"></el-input>
             </el-form-item>
-            <el-form-item label="内容" required prop="content">
-                <mavon-editor v-model="afu.content"
-                              @imgAdd="$imgAdd"
-                              @imgDel="$imgDel"
-                              ref="md"></mavon-editor>
+            <el-form-item label="私钥">
+                <el-input
+                        type="textarea"
+                        :autosize="{ minRows: 4, maxRows: 10}"
+                        placeholder="私钥将会自动创建"
+                        readonly
+                        v-model="afuType.privateKey">
+                </el-input>
+            </el-form-item>
+            <el-form-item label="公钥">
+                <el-input
+                        type="textarea"
+                        :autosize="{ minRows: 4, maxRows: 8}"
+                        placeholder="公钥将会自动创建"
+                        readonly
+                        v-model="afuType.publicKey">
+                </el-input>
             </el-form-item>
         </el-form>
         <edit-bar :save="saveHandler"
                   :delete="deleteHandler"
-                  :cancel="cancelHandler"></edit-bar>
+                  :cancel="cancelHandler"
+                  :disabledSave="disabledSave"></edit-bar>
     </div>
 </template>
 
 <script>
     import Afu from '~/api/afu'
-    import Image from '~/api/image'
-    import {mavonEditor} from 'mavon-editor'
-    import 'mavon-editor/dist/css/index.css'
     import EditBar from '~/components/widgets/EditBar'
 
     export default {
         components: {
-            mavonEditor,
             EditBar
         },
         data() {
@@ -38,35 +47,33 @@
                 rules: {
                     name: [
                         {required: true, message: '请输入名称', trigger: 'blur'}
-                    ],
-                    context: [
-                        {required: true, message: '请输入阿福内容', trigger: 'blur'}
                     ]
                 },
-                afu: {
+                afuType: {
                     id: this.$route.query.id,
                     status: 1
-                }
+                },
+                disabledSave: false
             }
         },
         created() {
             let _this = this
-
         },
         computed: {},
         mounted() {
             let _this = this
 
-            if (!this.afu.id) {
+            if (!this.afuType.id) {
                 return
             }
+            _this.disabledSave = true
             const loading = this.$loading({
                 lock: true,
-                text: '读取阿福信息...',
+                text: '读取阿福类别信息...',
                 background: 'rgba(255, 255, 255, 0.4)'
             });
-            Afu.getAfuDetail(this.afu.id).then(response => {
-                _this.afu = response.data
+            Afu.getAfuTypeDetail(this.afuType.id).then(response => {
+                _this.afuType = response.data
                 loading.close()
             })
 
@@ -74,7 +81,7 @@
         watch: {},
         methods: {
             tagCloseHandler(tag) {
-                this.afu.tagList.splice(this.afu.tagList.indexOf(tag), 1);
+                this.afuType.tagList.splice(this.afuType.tagList.indexOf(tag), 1);
             },
             showTagInput() {
                 this.tagInputVisible = true;
@@ -85,31 +92,18 @@
             handleInputConfirm() {
                 let inputValue = this.inputValue;
                 if (inputValue) {
-                    this.afu.tagList.push(inputValue);
+                    this.afuType.tagList.push(inputValue);
                 }
                 this.tagInputVisible = false;
                 this.inputValue = '';
             },
-            $imgAdd(pos, $file) {
-                // 第一步.将图片上传到服务器.
-                Image.upload($file).then((response) => {
-                    // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)
-                    // $vm.$img2Url 详情见本页末尾
-                    this.$refs.md.$img2Url(pos, response.data.url);
-                })
-            },
-            $imgDel(pos) {
-                // Image.delete($file).then((response) => {
-                //
-                // })
-            },
             saveHandler() {
                 let _this = this
-                _this.$refs['afu'].validate((valid) => {
+                _this.$refs['afuType'].validate((valid) => {
                     if (valid) {
-                        Afu.editAfu(_this.afu).then(response => {
+                        Afu.editAfuType(_this.afuType).then(response => {
                             if (response.errorCode === 'SUCCESS') {
-                                _this.$router.push({name: _this.Constants.Afu.list.name})
+                                _this.$router.push({name: _this.Constants.Afu.type.name})
                                 this.$message({
                                     type: 'success',
                                     message: '编辑成功!'
@@ -134,9 +128,9 @@
                     type: 'warning',
                     center: true
                 }).then(() => {
-                    Afu.deleteAfu(_this.afu.id).then(response => {
+                    Afu.deleteAfuType(_this.afuType.id).then(response => {
                         if (response.errorCode === 'SUCCESS') {
-                            _this.$router.push({name: _this.Constants.Afu.list.name})
+                            _this.$router.push({name: _this.Constants.Afu.type.name})
                             this.$message({
                                 type: 'success',
                                 message: '删除成功!'
@@ -152,15 +146,14 @@
                 })
             },
             cancelHandler() {
-                let _this = this
-                _this.$router.push({name: this.Constants.Afu.list.name})
+                this.$router.push({name: this.Constants.Afu.type.name})
             }
         }
     }
 </script>
 
 <style lang="less" scoped>
-    .form-afu-edit {
+    .form-afuType-edit {
         height: 100%;
         margin-top: 10px;
         margin-bottom: 100px;

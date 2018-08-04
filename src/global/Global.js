@@ -97,7 +97,19 @@ const Afu = {
         service: 'afu.edit'
     },
     type: {
-        name: 'afu.type'
+        name: 'afu.type',
+        service: 'afu.type.list',
+        detail: {
+            name: 'afu.type.detail',
+            service: 'afu.type.detail'
+        },
+        edit: {
+            name: 'afu.type.edit',
+            service: 'afu.type.edit'
+        },
+        delete: {
+            service: 'afu.type.delete'
+        }
     }
 }
 export default {

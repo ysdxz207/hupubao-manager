@@ -43,4 +43,44 @@ afu.editAfu = function (afu) {
     })
 }
 
+afu.getAfuTypes = function(params) {
+    return request({
+        data: {
+            service: Global.Afu.type.service,
+            bizContent: params
+        }
+    })
+}
+
+
+afu.getAfuTypeDetail = function(id) {
+    return request({
+        data: {
+            service: Global.Afu.type.detail.service,
+            bizContent: {
+                id
+            }
+        }
+    })
+}
+
+afu.editAfuType = function(params) {
+    return request({
+        data: {
+            service: Global.Afu.type.edit.service,
+            bizContent: params
+        }
+    })
+}
+
+afu.deleteAfuType = function(id) {
+    return request({
+        data: {
+            service: Global.Afu.type.delete.service,
+            bizContent: {
+                id
+            }
+        }
+    })
+}
 export default afu;

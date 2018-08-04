@@ -21,6 +21,7 @@
                 <el-button type="primary"
                            size="mini"
                            icon="el-icon-save"
+                           :disabled="disabledSave"
                            @click.native="saveHandler">保存</el-button>
             </el-button-group>
         </el-col>
@@ -30,10 +31,43 @@
 <script>
 
     export default {
+        props: {
+            save: {
+                type: Function,
+                default: function () {
+
+                }
+            },
+            delete: {
+                type: Function,
+                default: function () {
+
+                }
+            },
+            cancel: {
+                type: Function,
+                default: function () {
+
+                }
+            },
+            disabledSave: {
+                type: Boolean,
+                default: false
+            },
+            disabledDelete: {
+                type: Boolean,
+                default: false
+            },
+            disabledCancel: {
+                type: Boolean,
+                default: false
+            }
+        },
         components: {
         },
         data() {
             return {
+
             }
         },
         created() {
@@ -41,13 +75,13 @@
         watch: {},
         methods: {
             saveHandler() {
-                this.bus.$emit('save')
+                this.save()
             },
             deleteHandler() {
-                this.bus.$emit('delete')
+                this.delete()
             },
             cancelHandler() {
-                this.bus.$emit('cancel')
+                this.cancel()
             }
         }
     }
