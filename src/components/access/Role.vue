@@ -63,6 +63,17 @@
                             v-model="roles.roleName"
                             auto-complete="off"></el-input>
                 </el-form-item>
+                <el-form-item label="赋予权限" prop="roleName">
+                    <el-tree
+                            :data="permissionTree"
+                            show-checkbox
+                            default-expand-all
+                            node-key="id"
+                            ref="tree"
+                            highlight-current
+                            :props="defaultProps">
+                    </el-tree>
+                </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -102,12 +113,18 @@
                     roleName: [
                         {required: true, message: '请输入角色名称', trigger: 'blur'}
                     ]
-                }
+                },
+                defaultProps: {
+                    children: 'children',
+                    label: 'menuName'
+                },
+                permissionTree: {}
             }
         },
         mounted() {
             let _this = this;
             _this.loadPage()
+            _this.loadMenuTree()
         },
         computed: {
             pageInfo: function () {
@@ -197,12 +214,6 @@
                                     })
                                     _this.dialogFormVisible = false
 
-                                } else {
-                                    _this.$message({
-                                        showClose: true,
-                                        type: 'error',
-                                        message: '编辑失败!'
-                                    })
                                 }
                             })
                         } else {
@@ -212,6 +223,13 @@
                     return
                 }
 
+            },
+            loadMenuTree() {
+                let _this = this
+                Access.permission.getValidatePermissionList()
+                    .then(response => {
+                        _this.permissionTree = response.data
+                    });
             }
         },
         watch: {}

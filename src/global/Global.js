@@ -163,6 +163,10 @@ const Access = {
         }
     },
     permission: {
+        validateList: {
+            name: 'access.permission.validate',
+            service: 'permission.validateList'
+        },
         list: {
             name: 'access.permission',
             service: 'permission.list'

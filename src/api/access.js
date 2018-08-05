@@ -92,4 +92,63 @@ access.role = {
     }
 }
 
+access.menu = {
+    getMenuTypes: function () {
+        return request({
+            data: {
+                service: Global.Menu.types.service,
+                bizContent: {}
+            }
+        })
+    },
+    getMenuNav: function (type) {
+        return request({
+            data: {
+                service: Global.Menu.nav.service,
+                bizContent: {type: type}
+            }
+        })
+    }
+}
+
+access.permission = {
+    getValidatePermissionList: function () {
+        return request({
+            data: {
+                service: Global.Access.permission.validateList.service,
+                bizContent: {
+                }
+            }
+        })
+    },
+    getPermissions: function (params) {
+        return request({
+            data: {
+                service: Global.Access.permission.list.service,
+                bizContent: {
+                    params
+                }
+            }
+        })
+    },
+    deletePermission: function (id) {
+        return request({
+            data: {
+                service: Global.Access.permission.delete.service,
+                bizContent: {
+                    id
+                }
+            }
+        })
+    },
+    editPermission: function (permission) {
+        return request({
+            data: {
+                service: Global.Access.permission.edit.service,
+                bizContent: permission
+            }
+        })
+    }
+}
+
 export default access;

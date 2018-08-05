@@ -21,7 +21,7 @@
 </template>
 
 <script>
-    import Menu from '~/api/menu'
+    import Access from '~/api/access'
 
     export default {
         components: {},
@@ -47,7 +47,7 @@
         mounted() {
             let _this = this
 
-            Menu.getMenuNav(_this.menuType)
+            Access.menu.getMenuNav(_this.menuType)
                 .then(response => {
                     _this.menuTree = response.data[0]
                 });
@@ -59,7 +59,7 @@
             _this.bus.$on('selectMenuType', function (type) {
                 _this.menuType = type
                 _this.activeIndex = ''
-                Menu.getMenuNav(type).then(response => {
+                Access.menu.getMenuNav(type).then(response => {
                     _this.menuTree = response.data[0]
                 });
             })

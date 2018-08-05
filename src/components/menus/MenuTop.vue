@@ -37,7 +37,7 @@
 
 <script>
     import request from '~/utils/request'
-    import Menu from '~/api/menu'
+    import Access from '~/api/access'
 
     export default {
         components: {},
@@ -55,7 +55,7 @@
         mounted() {
             let _this = this
             _this.access = JSON.parse(sessionStorage.getItem("userInfo"))
-            Menu.getMenuTypes()
+            Access.menu.getMenuTypes()
                 .then(response => {
                     _this.menus = response.data
                 });
