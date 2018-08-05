@@ -16,8 +16,22 @@
                 height="100%"
                 @selection-change="tableSelectionHander">
             <el-table-column
-                    prop="name"
-                    label="分类名称"
+                    prop="username"
+                    label="用户名"
+                    width="240"
+                    align="center"
+                    show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column
+                    prop="nickname"
+                    label="昵称"
+                    width="240"
+                    align="center"
+                    show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column
+                    prop="roleName"
+                    label="角色"
                     width="240"
                     align="center"
                     show-overflow-tooltip>
@@ -41,7 +55,7 @@
 
         </el-table>
 
-        <el-tooltip class="item" effect="dark" content="添加分类" placement="top-start">
+        <el-tooltip class="item" effect="dark" content="添加用户" placement="top-start">
             <el-button type="success"
                        icon="el-icon-edit"
                        class="float-btn"
@@ -50,18 +64,54 @@
                        @click.stop="editHandler(undefined, $event)"></el-button>
         </el-tooltip>
 
-        <el-dialog title="添加分类"
+        <el-dialog title="编辑用户"
                    :visible.sync="dialogFormVisible"
                    @keyup.enter.native="editHandler()">
-            <el-form :model="category"
+            <el-form :model="user"
                      :rules="rules"
-                     ref="category"
+                     ref="user"
                      label-width="80px">
-                <el-form-item label="分类名" prop="name">
+                <el-form-item label="用户名" prop="username">
                     <el-input
                             clearable
-                            v-model="category.name"
+                            v-model="user.username"
+                            :disabled="usernameReadOnly"
                             auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="昵称" prop="nickname">
+                    <el-input
+                            clearable
+                            v-model="user.nickname"
+                            auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="密码" prop="password">
+                    <el-input
+                            clearable
+                            v-model="user.password"
+                            auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="角色" prop="roleId">
+                    <el-col :span="6">
+                        <el-select v-model="user.roleId" filterable placeholder="请选择角色">
+                        <el-option
+                                v-for="role in roleList"
+                                :key="role.id"
+                                :label="role.roleName"
+                                :value="role.id">
+                        </el-option>
+                    </el-select>
+                    </el-col>
+                </el-form-item>
+                <el-form-item label="状态" prop="status">
+                    <el-col :span="1">
+                        <el-switch
+                                v-model="user.status"
+                                active-color="#13ce66"
+                                inactive-color="#8D8D8D"
+                                :active-value="1"
+                                :inactive-value="0">
+                        </el-switch>
+                    </el-col>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -74,7 +124,7 @@
 </template>
 
 <script>
-    import Blog from '~/api/blog'
+    import Access from '~/api/access'
 
     export default {
         components: {},
@@ -85,7 +135,7 @@
                 _this.search = search
                 _this.loadPage()
             })
-            _this.bus.$on(_this.Constants.Blog.article.name, function (search) {
+            _this.bus.$on(_this.Constants.Access.user.list.name, function (search) {
                 _this.search = search
                 _this.loadPage()
             })
@@ -97,17 +147,30 @@
                 search: {},
                 loading: false,
                 dialogFormVisible: false,
-                category: {},
+                user: {},
                 rules: {
-                    name: [
-                        {required: true, message: '请输入分类名称', trigger: 'blur'}
+                    username: [
+                        {required: true, message: '请输入用户名', trigger: 'blur'}
+                    ],
+                    nickname: [
+                        {required: true, message: '请输入昵称', trigger: 'blur'}
+                    ],
+                    roleId: [
+                        { required: true, message: '请选择角色', trigger: 'change' }
                     ]
-                }
+                },
+                usernameReadOnly: false,
+                roleList: []
             }
         },
         mounted() {
             let _this = this;
             _this.loadPage()
+            Access.role.getRoles({
+                pageSize: 1024
+            }).then(response => {
+                _this.roleList = response.list
+            });
         },
         computed: {
             pageInfo: function () {
@@ -139,7 +202,7 @@
             loadPage() {
                 let _this = this
                 _this.toggleLoading()
-                Blog.getArticleCategories(_this.search)
+                Access.user.getUsers(_this.search)
                     .then(function (response) {
                         _this.page = response
                         _this.bus.$emit('pager', _this.pageInfo)
@@ -154,7 +217,7 @@
                     type: 'warning',
                     center: true
                 }).then(() => {
-                    Blog.deleteCategory(row).then(response => {
+                    Access.user.deleteUser(row).then(response => {
                         if (response.errorCode === 'SUCCESS') {
                             _this.page.list = _this.page.list.filter(t => t.id != row.id)
                             this.$message({
@@ -176,8 +239,13 @@
             editHandler(row) {
                 let _this = this
                 if (row) {
-                    _this.category = row
+                    _this.user = row
+                    _this.user.password = ""
+                    _this.usernameReadOnly = true
+                } else {
+                    _this.usernameReadOnly = false
                 }
+
                 if (!_this.dialogFormVisible) {
                     //显示编辑
 
@@ -186,12 +254,12 @@
                 }
 
                 if (_this.dialogFormVisible) {
-                    let newCategory = !row
+                    let newUser = !row
 
-                    _this.$refs['category'].validate((valid) => {
+                    _this.$refs['user'].validate((valid) => {
                         if (valid) {
-                            console.log(newCategory)
-                            Blog.editCategory(newCategory ? _this.category : row).then(response => {
+                            console.log(newUser)
+                            Access.user.editUser(newUser ? _this.user : row).then(response => {
                                 if (response.errorCode === 'SUCCESS') {
 
                                     _this.loadPage()

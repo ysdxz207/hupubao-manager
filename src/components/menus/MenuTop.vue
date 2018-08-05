@@ -54,7 +54,7 @@
         },
         mounted() {
             let _this = this
-            _this.user = JSON.parse(sessionStorage.getItem("userInfo"))
+            _this.access = JSON.parse(sessionStorage.getItem("userInfo"))
             Menu.getMenuTypes()
                 .then(response => {
                     _this.menus = response.data
@@ -71,6 +71,7 @@
                 }).then(response => {
                     if (response.statusCode !== 200) {
                         _this.$message.error({
+                            showClose: true,
                             message: response.message,
                             duration: 5 * 1000
                         })
@@ -81,6 +82,7 @@
                     }
                 }).catch(error => {
                     _this.$message.error({
+                        showClose: true,
                         message: error,
                         duration: 5 * 1000
                     })

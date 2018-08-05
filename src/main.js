@@ -18,8 +18,8 @@ const Article = () => import('./components/blog/Article.vue').then(m => m.defaul
 const ArticleEdit = () => import('./components/blog/ArticleEdit.vue').then(m => m.default)
 const ArticleCategory = () => import('./components/blog/Category.vue').then(m => m.default)
 const ArticleTag = () => import('./components/blog/Tag.vue').then(m => m.default)
-const AccessUser = () => import('./components/permission/AccessUser.vue').then(m => m.default)
-const AccessRole = () => import('./components/permission/AccessRole.vue').then(m => m.default)
+const AccessUser = () => import('./components/access/User.vue').then(m => m.default)
+const AccessRole = () => import('./components/access/Role.vue').then(m => m.default)
 const AccessMenu = () => import('./components/permission/AccessMenu.vue').then(m => m.default)
 const AccessPermissions = () => import('./components/permission/AccessPermissions.vue').then(m => m.default)
 const Afu = () => import('./components/afu/Afu.vue').then(m => m.default)
@@ -92,10 +92,26 @@ const routes = [
         path: '/access',
         component: Index,
         children: [
-            {path: 'user', component: AccessUser},
-            {path: 'role', component: AccessRole},
-            {path: 'menu', component: AccessMenu},
-            {path: 'permissions', component: AccessPermissions}
+            {
+                name: Global.Access.user.list.name,
+                path: 'user',
+                component: AccessUser
+            },
+            {
+                name: Global.Access.role.list.name,
+                path: 'role',
+                component: AccessRole
+            },
+            {
+                name: Global.Access.menu.list.name,
+                path: 'menu',
+                component: AccessMenu
+            },
+            {
+                name: Global.Access.permission.list.name,
+                path: 'permissions',
+                component: AccessPermissions
+            }
         ]
     },
     {
@@ -192,7 +208,6 @@ window.addEventListener('noAuthEvent', function (e) {
         router.push({name: Global.Login.login.name})
     }
 })
-
 
 
 Vue.prototype.bus = new Vue()

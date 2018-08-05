@@ -111,11 +111,13 @@
                             if (response.errorCode === 'SUCCESS') {
                                 _this.$router.push({name: _this.Constants.Afu.list.name})
                                 this.$message({
+                                    showClose: true,
                                     type: 'success',
                                     message: '编辑成功!'
                                 })
                             } else {
                                 this.$message({
+                                    showClose: true,
                                     type: 'error',
                                     message: '编辑失败!'
                                 })
@@ -138,11 +140,13 @@
                         if (response.errorCode === 'SUCCESS') {
                             _this.$router.push({name: _this.Constants.Afu.list.name})
                             this.$message({
+                                showClose: true,
                                 type: 'success',
                                 message: '删除成功!'
                             })
                         } else {
                             this.$message({
+                                showClose: true,
                                 type: 'error',
                                 message: '删除失败!'
                             })

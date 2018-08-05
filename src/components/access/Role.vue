@@ -16,8 +16,8 @@
                 height="100%"
                 @selection-change="tableSelectionHander">
             <el-table-column
-                    prop="name"
-                    label="分类名称"
+                    prop="roleName"
+                    label="角色名称"
                     width="240"
                     align="center"
                     show-overflow-tooltip>
@@ -41,7 +41,7 @@
 
         </el-table>
 
-        <el-tooltip class="item" effect="dark" content="添加分类" placement="top-start">
+        <el-tooltip class="item" effect="dark" content="添加角色" placement="top-start">
             <el-button type="success"
                        icon="el-icon-edit"
                        class="float-btn"
@@ -50,17 +50,17 @@
                        @click.stop="editHandler(undefined, $event)"></el-button>
         </el-tooltip>
 
-        <el-dialog title="添加分类"
+        <el-dialog title="添加角色"
                    :visible.sync="dialogFormVisible"
                    @keyup.enter.native="editHandler()">
-            <el-form :model="category"
+            <el-form :model="roles"
                      :rules="rules"
-                     ref="category"
+                     ref="roles"
                      label-width="80px">
-                <el-form-item label="分类名" prop="name">
+                <el-form-item label="角色名" prop="roleName">
                     <el-input
                             clearable
-                            v-model="category.name"
+                            v-model="roles.roleName"
                             auto-complete="off"></el-input>
                 </el-form-item>
             </el-form>
@@ -74,7 +74,7 @@
 </template>
 
 <script>
-    import Blog from '~/api/blog'
+    import Access from '~/api/access'
 
     export default {
         components: {},
@@ -85,7 +85,7 @@
                 _this.search = search
                 _this.loadPage()
             })
-            _this.bus.$on(_this.Constants.Blog.article.name, function (search) {
+            _this.bus.$on(_this.Constants.Access.role.list.name, function (search) {
                 _this.search = search
                 _this.loadPage()
             })
@@ -97,10 +97,10 @@
                 search: {},
                 loading: false,
                 dialogFormVisible: false,
-                category: {},
+                roles: {},
                 rules: {
-                    name: [
-                        {required: true, message: '请输入分类名称', trigger: 'blur'}
+                    roleName: [
+                        {required: true, message: '请输入角色名称', trigger: 'blur'}
                     ]
                 }
             }
@@ -139,7 +139,7 @@
             loadPage() {
                 let _this = this
                 _this.toggleLoading()
-                Blog.getArticleCategories(_this.search)
+                Access.role.getRoles(_this.search)
                     .then(function (response) {
                         _this.page = response
                         _this.bus.$emit('pager', _this.pageInfo)
@@ -154,19 +154,13 @@
                     type: 'warning',
                     center: true
                 }).then(() => {
-                    Blog.deleteCategory(row).then(response => {
+                    Access.role.deleteRole(row.id).then(response => {
                         if (response.errorCode === 'SUCCESS') {
                             _this.page.list = _this.page.list.filter(t => t.id != row.id)
                             this.$message({
                                 showClose: true,
                                 type: 'success',
                                 message: '删除成功!'
-                            })
-                        } else {
-                            this.$message({
-                                showClose: true,
-                                type: 'error',
-                                message: '删除失败!'
                             })
                         }
                     })
@@ -176,8 +170,9 @@
             editHandler(row) {
                 let _this = this
                 if (row) {
-                    _this.category = row
+                    _this.roles = row
                 }
+
                 if (!_this.dialogFormVisible) {
                     //显示编辑
 
@@ -186,12 +181,12 @@
                 }
 
                 if (_this.dialogFormVisible) {
-                    let newCategory = !row
+                    let newRole = !row
 
-                    _this.$refs['category'].validate((valid) => {
+                    _this.$refs['roles'].validate((valid) => {
                         if (valid) {
-                            console.log(newCategory)
-                            Blog.editCategory(newCategory ? _this.category : row).then(response => {
+                            console.log(newRole)
+                            Access.role.editRole(newRole ? _this.roles : row).then(response => {
                                 if (response.errorCode === 'SUCCESS') {
 
                                     _this.loadPage()

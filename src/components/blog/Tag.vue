@@ -100,7 +100,7 @@
                 tag: {},
                 rules: {
                     name: [
-                        {required: true, message: '请输入分类名称', trigger: 'blur'}
+                        {required: true, message: '请输入标签名称', trigger: 'blur'}
                     ]
                 }
             }
@@ -158,13 +158,15 @@
                         if (response.errorCode === 'SUCCESS') {
                             _this.page.list = _this.page.list.filter(t => t.id != row.id)
                             this.$message({
+                                showClose: true,
                                 type: 'success',
                                 message: '删除成功!'
                             })
                         } else {
                             this.$message({
+                                showClose: true,
                                 type: 'error',
-                                message: '删除失败!'
+                                message: '删除失败：' + response.message
                             })
                         }
                     })
@@ -195,6 +197,7 @@
 
                                     _this.loadPage()
                                     _this.$message({
+                                        showClose: true,
                                         type: 'success',
                                         message: '编辑成功!'
                                     })
@@ -202,6 +205,7 @@
 
                                 } else {
                                     _this.$message({
+                                        showClose: true,
                                         type: 'error',
                                         message: '编辑失败!'
                                     })

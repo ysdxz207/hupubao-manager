@@ -156,11 +156,13 @@
                             if (response.errorCode === 'SUCCESS') {
                                 _this.$router.push({path: '/blog/article'})
                                 this.$message({
+                                    showClose: true,
                                     type: 'success',
                                     message: '编辑成功!'
                                 })
                             } else {
                                 this.$message({
+                                    showClose: true,
                                     type: 'error',
                                     message: '编辑失败!'
                                 })
@@ -183,11 +185,13 @@
                         if (response.errorCode === 'SUCCESS') {
                             _this.$router.push({name: _this.Constants.Blog.article.name})
                             _this.$message({
+                                showClose: true,
                                 type: 'success',
                                 message: '删除成功!'
                             })
                         } else {
                             _this.$message({
+                                showClose: true,
                                 type: 'error',
                                 message: '删除失败!'
                             })

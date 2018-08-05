@@ -112,6 +112,73 @@ const Afu = {
         }
     }
 }
+
+const Access = {
+    user: {
+        list: {
+            name: 'access.user',
+            service: 'user.list'
+        },
+        detail: {
+            service: 'user.detail'
+        },
+        delete: {
+            service: 'user.delete'
+        },
+        edit: {
+            name: 'access.user.edit',
+            service: 'user.edit'
+        }
+    },
+    role: {
+        list: {
+            name: 'access.role',
+            service: 'role.list'
+        },
+        detail: {
+            service: 'role.detail'
+        },
+        delete: {
+            service: 'role.delete'
+        },
+        edit: {
+            name: 'access.role.edit',
+            service: 'role.edit'
+        }
+    },
+    menu: {
+        list: {
+            name: 'access.menu',
+            service: 'menu.list'
+        },
+        detail: {
+            service: 'menu.detail'
+        },
+        delete: {
+            service: 'menu.delete'
+        },
+        edit: {
+            name: 'access.menu.edit',
+            service: 'menu.edit'
+        }
+    },
+    permission: {
+        list: {
+            name: 'access.permission',
+            service: 'permission.list'
+        },
+        detail: {
+            service: 'permission.detail'
+        },
+        delete: {
+            service: 'permission.delete'
+        },
+        edit: {
+            name: 'access.permission.edit',
+            service: 'permission.edit'
+        }
+    }
+}
 export default {
     Utils,
     Main,
@@ -120,5 +187,6 @@ export default {
     Menu,
     Blog,
     Image,
-    Afu
+    Afu,
+    Access
 }

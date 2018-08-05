@@ -122,6 +122,7 @@
                         }
                         if (response.statusCode !== 200) {
                             _this.$message.error({
+                                showClose: true,
                                 message: response.message,
                                 duration: 5 * 1000
                             })
@@ -133,6 +134,7 @@
                     }).catch(error => {
                         _this.loading = false
                         _this.$message.error({
+                            showClose: true,
                             message: error,
                             duration: 5 * 1000
                         })
