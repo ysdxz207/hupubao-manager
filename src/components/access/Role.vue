@@ -67,10 +67,10 @@
                     <el-tree
                             :data="permissionTree"
                             show-checkbox
-                            default-expand-all
                             node-key="id"
                             ref="tree"
                             highlight-current
+                            :default-checked-keys="permissionTreeCheckedArray"
                             :props="defaultProps">
                     </el-tree>
                 </el-form-item>
@@ -116,9 +116,10 @@
                 },
                 defaultProps: {
                     children: 'children',
-                    label: 'menuName'
+                    label: 'permissionName'
                 },
-                permissionTree: {}
+                permissionTree: {},
+                permissionTreeCheckedArray: []
             }
         },
         mounted() {
@@ -229,6 +230,8 @@
                 Access.permission.getValidatePermissionList()
                     .then(response => {
                         _this.permissionTree = response.data
+                        _this.permissionTreeCheckedArray = _this.permissionTree.filter(o => {o.checked})
+                        alert(_this.permissionTreeCheckedArray)
                     });
             }
         },
