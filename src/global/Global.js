@@ -144,7 +144,11 @@ const Access = {
         edit: {
             name: 'access.role.edit',
             service: 'role.edit'
-        }
+        },
+        permissions: {
+            name: 'access.role.permission',
+            service: 'role.permissions'
+        },
     },
     menu: {
         list: {
@@ -163,10 +167,6 @@ const Access = {
         }
     },
     permission: {
-        validateList: {
-            name: 'access.permission.validate',
-            service: 'permission.validateList'
-        },
         list: {
             name: 'access.permission',
             service: 'permission.list'
@@ -180,6 +180,10 @@ const Access = {
         edit: {
             name: 'access.permission.edit',
             service: 'permission.edit'
+        },
+        tree: {
+            name: 'access.role.permission',
+            service: 'permission.tree'
         }
     }
 }

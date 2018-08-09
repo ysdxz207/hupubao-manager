@@ -28,6 +28,7 @@ service.interceptors.request.use(config => {
     console.log(error) // for debug
     // Promise.reject(error)
     Message({
+        showClose: true,
         message: error.message,
         type: 'error',
         duration: 5 * 1000
@@ -48,6 +49,7 @@ service.interceptors.response.use(
                 return
             }
             Message({
+                showClose: true,
                 message: res.message ? res.message : '服务器返回非成功状态',
                 type: 'warning',
                 duration: 5 * 1000
@@ -58,6 +60,7 @@ service.interceptors.response.use(
     },
     error => {
         Message({
+            showClose: true,
             message: error.message,
             type: 'error',
             duration: 5 * 1000

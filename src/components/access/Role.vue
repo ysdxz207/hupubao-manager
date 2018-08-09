@@ -50,20 +50,26 @@
                        @click.stop="editHandler(undefined, $event)"></el-button>
         </el-tooltip>
 
-        <el-dialog title="添加角色"
+        <el-dialog title="编辑角色"
                    :visible.sync="dialogFormVisible"
                    @keyup.enter.native="editHandler()">
-            <el-form :model="roles"
+            <el-form :model="role"
                      :rules="rules"
-                     ref="roles"
+                     ref="role"
                      label-width="80px">
                 <el-form-item label="角色名" prop="roleName">
                     <el-input
                             clearable
-                            v-model="roles.roleName"
+                            v-model="role.roleName"
                             auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="赋予权限" prop="roleName">
+                <el-form-item label="code" prop="code">
+                    <el-input
+                            clearable
+                            v-model="role.code"
+                            auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="赋予权限" prop="permissions">
                     <el-tree
                             :data="permissionTree"
                             show-checkbox
@@ -108,10 +114,13 @@
                 search: {},
                 loading: false,
                 dialogFormVisible: false,
-                roles: {},
+                role: {},
                 rules: {
                     roleName: [
                         {required: true, message: '请输入角色名称', trigger: 'blur'}
+                    ],
+                    code: [
+                        {required: true, message: '请输入code', trigger: 'blur'}
                     ]
                 },
                 defaultProps: {
@@ -125,7 +134,7 @@
         mounted() {
             let _this = this;
             _this.loadPage()
-            _this.loadMenuTree()
+            _this.loadPermissionTree()
         },
         computed: {
             pageInfo: function () {
@@ -187,24 +196,35 @@
             },
             editHandler(row) {
                 let _this = this
-                if (row) {
-                    _this.roles = row
+
+
+                if (_this.$refs.tree) {
+                    _this.$refs['tree'].setCheckedKeys([])
                 }
+
+
 
                 if (!_this.dialogFormVisible) {
                     //显示编辑
-
+                    _this.role = {}
+                    if (row) {
+                        _this.role = row
+                        //编辑，需要获取角色权限
+                        _this.loadRolePermissions(row.id)
+                    }
                     _this.dialogFormVisible = true
                     return
                 }
 
+
+
                 if (_this.dialogFormVisible) {
                     let newRole = !row
 
-                    _this.$refs['roles'].validate((valid) => {
+                    _this.$refs['role'].validate((valid) => {
                         if (valid) {
-                            console.log(newRole)
-                            Access.role.editRole(newRole ? _this.roles : row).then(response => {
+                            console.log(_this.role)
+                            Access.role.editRole(newRole ? _this.role : row).then(response => {
                                 if (response.errorCode === 'SUCCESS') {
 
                                     _this.loadPage()
@@ -213,10 +233,11 @@
                                         type: 'success',
                                         message: '编辑成功!'
                                     })
-                                    _this.dialogFormVisible = false
 
                                 }
                             })
+                            _this.dialogFormVisible = false
+
                         } else {
                             return false;
                         }
@@ -225,13 +246,19 @@
                 }
 
             },
-            loadMenuTree() {
+            loadPermissionTree() {
                 let _this = this
-                Access.permission.getValidatePermissionList()
+                Access.permission.getPermissionTree()
                     .then(response => {
                         _this.permissionTree = response.data
-                        _this.permissionTreeCheckedArray = _this.permissionTree.filter(o => {o.checked})
-                        alert(_this.permissionTreeCheckedArray)
+                    });
+            },
+            loadRolePermissions(roleId) {
+                let _this = this
+
+                Access.permission.getRolePermissions(roleId)
+                    .then(response => {
+                        _this.permissionTreeCheckedArray = response.data
                     });
             }
         },

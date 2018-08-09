@@ -112,16 +112,16 @@ access.menu = {
 }
 
 access.permission = {
-    getValidatePermissionList: function () {
+    getPermissionTree: function () {
         return request({
             data: {
-                service: Global.Access.permission.validateList.service,
+                service: Global.Access.permission.tree.service,
                 bizContent: {
                 }
             }
         })
     },
-    getPermissions: function (params) {
+    getPermissionList: function (params) {
         return request({
             data: {
                 service: Global.Access.permission.list.service,
@@ -146,6 +146,16 @@ access.permission = {
             data: {
                 service: Global.Access.permission.edit.service,
                 bizContent: permission
+            }
+        })
+    },
+    getRolePermissions: function (roleId) {
+        return request({
+            data: {
+                service: Global.Access.role.permissions.service,
+                bizContent: {
+                    roleId
+                }
             }
         })
     }
