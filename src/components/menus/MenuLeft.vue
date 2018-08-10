@@ -10,7 +10,7 @@
              background-color="#545c64"
              text-color="#fff"
              active-text-color="#ffd04b">
-        <router-link to="/"><h3 style="color: #ffffff">飞鸿博客管理后台</h3></router-link>
+        <router-link to="/"><h3 style="color: #ffffff">home</h3></router-link>
         <el-menu-item :index="menu.href"
                       v-for="(menu, index) in menuTree.children"
                       :key="index">
@@ -28,7 +28,7 @@
         data() {
             return {
                 activeIndex: '',
-                isCollapse: false,
+                isCollapse: true,
                 menuTree: {}
             }
         },
@@ -62,6 +62,11 @@
                 Access.menu.getMenuNav(type).then(response => {
                     _this.menuTree = response.data[0]
                 });
+            })
+
+            //左侧菜单收起展开
+            _this.bus.$on('toggleLeftMenuCollapse', function () {
+                _this.isCollapse = !_this.isCollapse
             })
         },
         methods: {

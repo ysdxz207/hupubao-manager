@@ -8,6 +8,9 @@
                 background-color="#545c64"
                 text-color="#fff"
                 active-text-color="#ffd04b">
+            <el-menu-item index="btn-toogle" @click="toggleLeftMenuCollapse">
+                <i class="el-icon-del"></i>
+            </el-menu-item>
             <el-menu-item :index="menu.code"
                           v-for="(menu,index) in menus"
                           :key="index">
@@ -62,6 +65,9 @@
         },
         methods: {
             handleSelect(key, keyPath) {
+                if (key === "btn-toggle") {
+                    return
+                }
                 this.bus.$emit('selectMenuType', key)
             },
             logout() {
@@ -98,6 +104,9 @@
             },
             searchHander() {
                 this.bus.$emit('searchDialog')
+            },
+            toggleLeftMenuCollapse() {
+                this.bus.$emit('toggleLeftMenuCollapse')
             }
         },
         created() {

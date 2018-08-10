@@ -1,7 +1,7 @@
 <template>
 
     <el-container>
-        <el-aside width="16%">
+        <el-aside width="auto" class="menu-left">
             <menu-left></menu-left>
         </el-aside>
         <el-container>
@@ -48,6 +48,9 @@
 
     @import '../styles/transition.less';
 
+    .menu-left:not(.el-menu--collapse) {
+        width: 220px;
+    }
 
     .el-header {
         padding: 0;
