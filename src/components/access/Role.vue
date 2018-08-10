@@ -76,6 +76,8 @@
                             node-key="id"
                             ref="tree"
                             highlight-current
+                            check-on-click-node
+                            accordion
                             :default-checked-keys="permissionTreeCheckedArray"
                             :props="defaultProps">
                     </el-tree>
@@ -198,8 +200,10 @@
                 let _this = this
 
 
-                if (_this.$refs.tree) {
-                    _this.$refs['tree'].setCheckedKeys([])
+
+                if (_this.$refs.tree
+                    && !_this.dialogFormVisible) {
+                    _this.$refs.tree.setCheckedKeys([])
                 }
 
 
@@ -219,12 +223,12 @@
 
 
                 if (_this.dialogFormVisible) {
-                    let newRole = !row
+                    let roleEdit = row ? row : _this.role
+                        roleEdit.permissions = _this.$refs.tree.getCheckedKeys()
 
                     _this.$refs['role'].validate((valid) => {
                         if (valid) {
-                            console.log(_this.role)
-                            Access.role.editRole(newRole ? _this.role : row).then(response => {
+                            Access.role.editRole(roleEdit).then(response => {
                                 if (response.errorCode === 'SUCCESS') {
 
                                     _this.loadPage()
