@@ -155,9 +155,6 @@ const Access = {
             name: 'access.menu',
             service: 'menu.list'
         },
-        detail: {
-            service: 'menu.detail'
-        },
         delete: {
             service: 'menu.delete'
         },
@@ -170,9 +167,6 @@ const Access = {
         list: {
             name: 'access.permission',
             service: 'permission.list'
-        },
-        detail: {
-            service: 'permission.detail'
         },
         delete: {
             service: 'permission.delete'

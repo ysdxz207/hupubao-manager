@@ -93,6 +93,30 @@ access.role = {
 }
 
 access.menu = {
+    getMenus: function() {
+        return request({
+            data: {
+                service: Global.Menu.list.service,
+                bizContent: {}
+            }
+        })
+    },
+    deleteMenu: function() {
+        return request({
+            data: {
+                service: Global.Menu.delete.service,
+                bizContent: {}
+            }
+        })
+    },
+    editMenu: function() {
+        return request({
+            data: {
+                service: Global.Menu.edit.service,
+                bizContent: {}
+            }
+        })
+    },
     getMenuTypes: function () {
         return request({
             data: {
