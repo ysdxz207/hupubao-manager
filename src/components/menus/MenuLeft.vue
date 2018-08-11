@@ -10,7 +10,9 @@
              background-color="#545c64"
              text-color="#fff"
              active-text-color="#ffd04b">
-        <router-link to="/"><h3 style="color: #ffffff">home</h3></router-link>
+        <router-link to="/">
+            <i style="color: #ffffff;font-size: 32px;line-height: 60px" class="el-icon-home"></i>
+        </router-link>
         <el-menu-item :index="menu.href"
                       v-for="(menu, index) in menuTree.children"
                       :key="index">
@@ -65,8 +67,8 @@
             })
 
             //左侧菜单收起展开
-            _this.bus.$on('toggleLeftMenuCollapse', function () {
-                _this.isCollapse = !_this.isCollapse
+            _this.bus.$on('toggleLeftMenuCollapse', function (isCollapse) {
+                _this.isCollapse = isCollapse
             })
         },
         methods: {
@@ -88,5 +90,7 @@
 <style lang="less" scoped>
     .el-menu {
         height: 100vh;
+        border-right: solid 1px rgb(134, 134, 134);
     }
+
 </style>

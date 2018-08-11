@@ -16,11 +16,31 @@
                 height="100%"
                 @selection-change="tableSelectionHander">
             <el-table-column
-                    prop="name"
+                    prop="menuName"
                     label="菜单名称"
                     width="240"
                     align="center"
                     show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column
+                    prop="icon"
+                    label="图标"
+                    width="240"
+                    align="center"
+                    show-overflow-tooltip>
+                <template slot-scope="scope">
+                    <el-tooltip class="item"
+                                effect="dark"
+                                content="点击显示图标class"
+                                placement="left">
+                        <el-popover trigger="click" placement="top">
+                            <p>{{ scope.row.icon }}</p>
+                            <div slot="reference" class="name-wrapper">
+                                <i :class="scope.row.icon"></i>
+                            </div>
+                        </el-popover>
+                    </el-tooltip>
+                </template>
             </el-table-column>
             <el-table-column
                     prop="createTime"
@@ -32,10 +52,15 @@
             <el-table-column
                     label="操作"
                     align="center"
-                    width="100">
+                    width="200">
                 <template slot-scope="scope">
-                    <el-button @click="deleteHandler(scope.row)" type="text" size="small">删除</el-button>
-                    <el-button @click="editHandler(scope.row)" type="text" size="small">编辑</el-button>
+                    <el-button
+                            size="mini"
+                            @click="editHandler(scope.row)">编辑</el-button>
+                    <el-button
+                            size="mini"
+                            type="danger"
+                            @click="deleteHandler(scope.row)">删除</el-button>
                 </template>
             </el-table-column>
 
@@ -57,10 +82,10 @@
                      :rules="rules"
                      ref="menu"
                      label-width="80px">
-                <el-form-item label="菜单名" prop="name">
+                <el-form-item label="菜单名" prop="menuName">
                     <el-input
                             clearable
-                            v-model="menu.name"
+                            v-model="menu.menuName"
                             auto-complete="off"></el-input>
                 </el-form-item>
             </el-form>

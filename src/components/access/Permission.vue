@@ -16,7 +16,7 @@
                 height="100%"
                 @selection-change="tableSelectionHander">
             <el-table-column
-                    prop="name"
+                    prop="permissionName"
                     label="权限名称"
                     width="240"
                     align="center"
@@ -32,10 +32,15 @@
             <el-table-column
                     label="操作"
                     align="center"
-                    width="100">
+                    width="200">
                 <template slot-scope="scope">
-                    <el-button @click="deleteHandler(scope.row)" type="text" size="small">删除</el-button>
-                    <el-button @click="editHandler(scope.row)" type="text" size="small">编辑</el-button>
+                    <el-button
+                            size="mini"
+                            @click="editHandler(scope.row)">编辑</el-button>
+                    <el-button
+                            size="mini"
+                            type="danger"
+                            @click="deleteHandler(scope.row)">删除</el-button>
                 </template>
             </el-table-column>
 
@@ -139,7 +144,7 @@
             loadPage() {
                 let _this = this
                 _this.toggleLoading()
-                Access.getArticlePermissions(_this.search)
+                Access.permission.getPermissionList(_this.search)
                     .then(function (response) {
                         _this.page = response
                         _this.bus.$emit('pager', _this.pageInfo)
@@ -154,7 +159,7 @@
                     type: 'warning',
                     center: true
                 }).then(() => {
-                    Access.deleteTag(row).then(response => {
+                    Access.permission.deletePermission(row).then(response => {
                         if (response.errorCode === 'SUCCESS') {
                             _this.page.list = _this.page.list.filter(t => t.id != row.id)
                             this.$message({
@@ -192,7 +197,7 @@
                     _this.$refs['permission'].validate((valid) => {
                         if (valid) {
                             console.log(newTag)
-                            Access.editTag(newTag ? _this.permission : row).then(response => {
+                            Access.permission.editPermission(newTag ? _this.permission : row).then(response => {
                                 if (response.errorCode === 'SUCCESS') {
 
                                     _this.loadPage()

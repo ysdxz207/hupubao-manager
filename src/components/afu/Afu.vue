@@ -34,7 +34,9 @@
                     align="center"
                     width="100">
                 <template slot-scope="scope">
-                    <el-button @click="editHandler(scope.row)" type="text" size="small">编辑</el-button>
+                    <el-button
+                            size="mini"
+                            @click="editHandler(scope.row)">编辑</el-button>
                 </template>
             </el-table-column>
 

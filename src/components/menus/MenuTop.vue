@@ -8,9 +8,10 @@
                 background-color="#545c64"
                 text-color="#fff"
                 active-text-color="#ffd04b">
-            <el-menu-item index="btn-toogle" @click="toggleLeftMenuCollapse">
-                <i class="el-icon-del"></i>
-            </el-menu-item>
+            <div class="menu-top-btn-toggle el-icon-menus"
+                 :class="menuLeftCollapseClass"
+                 @click="toggleLeftMenuCollapse">
+            </div>
             <el-menu-item :index="menu.code"
                           v-for="(menu,index) in menus"
                           :key="index">
@@ -47,7 +48,8 @@
         data() {
             return {
                 user: {},
-                menus: []
+                menus: [],
+                menuLeftCollapseClass: ''
             }
         },
         computed: {
@@ -106,7 +108,9 @@
                 this.bus.$emit('searchDialog')
             },
             toggleLeftMenuCollapse() {
-                this.bus.$emit('toggleLeftMenuCollapse')
+                let isCollapse = !!this.menuLeftCollapseClass
+                this.menuLeftCollapseClass = isCollapse ? '' : 'menu-left-collapse'
+                this.bus.$emit('toggleLeftMenuCollapse', isCollapse)
             }
         },
         created() {
@@ -117,6 +121,30 @@
 
 <style lang="less" scoped>
     .menu-top {
+    }
+
+    .menu-top-btn-toggle,.menu-top-btn-toggle:focus {
+        float: left;
+        line-height: 60px;
+        cursor: pointer;
+        font-size: 24px;
+        margin-left: 10px;
+        margin-right: 20px;
+        color: #FFFFFF;
+        outline: none;
+
+        transition: all 0.2s ease-in-out;
+        -webkit-transition: all 0.2s ease-in-out;
+        -moz-transition: all 0.2s ease-in-out;
+        -o-transition: all 0.2s ease-in-out;
+    }
+
+    .menu-top-btn-toggle.menu-left-collapse {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
     }
 
     .menu-top-user-info-group {

@@ -95,22 +95,34 @@ const routes = [
             {
                 name: Global.Access.user.list.name,
                 path: 'user',
-                component: AccessUser
+                components: {
+                    default: AccessUser,
+                    footer: Pager
+                }
             },
             {
                 name: Global.Access.role.list.name,
                 path: 'role',
-                component: AccessRole
+                components: {
+                    default: AccessRole,
+                    footer: Pager
+                }
             },
             {
                 name: Global.Access.menu.list.name,
                 path: 'menu',
-                component: AccessMenu
+                components: {
+                    default: AccessMenu,
+                    footer: Pager
+                }
             },
             {
                 name: Global.Access.permission.list.name,
-                path: 'permissions',
-                component: AccessPermissions
+                path: 'permission',
+                components: {
+                    default: AccessPermissions,
+                    footer: Pager
+                }
             }
         ]
     },

@@ -32,10 +32,15 @@
             <el-table-column
                     label="操作"
                     align="center"
-                    width="100">
+                    width="200">
                 <template slot-scope="scope">
-                    <el-button @click="deleteHandler(scope.row)" type="text" size="small">删除</el-button>
-                    <el-button @click="editHandler(scope.row)" type="text" size="small">编辑</el-button>
+                    <el-button
+                            size="mini"
+                            @click="editHandler(scope.row)">编辑</el-button>
+                    <el-button
+                            size="mini"
+                            type="danger"
+                            @click="deleteHandler(scope.row)">删除</el-button>
                 </template>
             </el-table-column>
 

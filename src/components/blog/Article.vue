@@ -54,10 +54,15 @@
                     fixed="right"
                     label="操作"
                     align="center"
-                    width="100">
+                    width="200">
                 <template slot-scope="scope">
-                    <el-button @click="previewHandler(scope.row)" type="text" size="small">预览</el-button>
-                    <el-button @click="editHandler(scope.row)" type="text" size="small">编辑</el-button>
+                    <el-button
+                            size="mini"
+                            type="success"
+                            @click="previewHandler(scope.row)">预览</el-button>
+                    <el-button
+                            size="mini"
+                            @click="editHandler(scope.row)">编辑</el-button>
                 </template>
             </el-table-column>
 

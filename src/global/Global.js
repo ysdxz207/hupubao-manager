@@ -14,15 +14,6 @@ const Login = {
     }
 }
 
-const Menu = {
-    types: {
-        service: 'menu.type'
-    },
-    nav: {
-        service: 'menu.nav'
-    }
-}
-
 const Main = {
     dashbord: {
         name: 'dashbord'
@@ -161,6 +152,12 @@ const Access = {
         edit: {
             name: 'access.menu.edit',
             service: 'menu.edit'
+        },
+        types: {
+            service: 'menu.type'
+        },
+        nav: {
+            service: 'menu.nav'
         }
     },
     permission: {
@@ -186,7 +183,6 @@ export default {
     Main,
     PageInfo,
     Login,
-    Menu,
     Blog,
     Image,
     Afu,

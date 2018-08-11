@@ -93,18 +93,18 @@ access.role = {
 }
 
 access.menu = {
-    getMenus: function() {
+    getMenus: function(params) {
         return request({
             data: {
-                service: Global.Menu.list.service,
-                bizContent: {}
+                service: Global.Access.menu.list.service,
+                bizContent: params
             }
         })
     },
     deleteMenu: function() {
         return request({
             data: {
-                service: Global.Menu.delete.service,
+                service: Global.Access.menu.delete.service,
                 bizContent: {}
             }
         })
@@ -112,7 +112,7 @@ access.menu = {
     editMenu: function() {
         return request({
             data: {
-                service: Global.Menu.edit.service,
+                service: Global.Access.menu.edit.service,
                 bizContent: {}
             }
         })
@@ -120,7 +120,7 @@ access.menu = {
     getMenuTypes: function () {
         return request({
             data: {
-                service: Global.Menu.types.service,
+                service: Global.Access.menu.types.service,
                 bizContent: {}
             }
         })
@@ -128,7 +128,7 @@ access.menu = {
     getMenuNav: function (type) {
         return request({
             data: {
-                service: Global.Menu.nav.service,
+                service: Global.Access.menu.nav.service,
                 bizContent: {type: type}
             }
         })
@@ -149,9 +149,7 @@ access.permission = {
         return request({
             data: {
                 service: Global.Access.permission.list.service,
-                bizContent: {
-                    params
-                }
+                bizContent: params
             }
         })
     },
