@@ -28,6 +28,8 @@ const AfuEdit = () => import('./components/afu/AfuEdit.vue').then(m => m.default
 const AfuTypeEdit = () => import('./components/afu/AfuTypeEdit.vue').then(m => m.default)
 const SearchArticle = () => import('./components/search/blog/SearchArticle.vue').then(m => m.default)
 const Breadcrumb = () => import('./components/Breadcrumb.vue').then(m => m.default)
+const Logging = () => import('./components/logging/Logging.vue').then(m => m.default)
+const SearchLogging = () => import('./components/search/logging/SearchLogging.vue').then(m => m.default)
 
 
 Vue.use(VueRouter)
@@ -158,6 +160,21 @@ const routes = [
                 path: '/afu/type/edit',
                 components: {
                     default: AfuTypeEdit
+                }
+            }
+        ]
+    },
+    {
+        path: '/logging',
+        component: Index,
+        children: [
+            {
+                name: Global.Logging.list.name,
+                path: '/',
+                components: {
+                    default: Logging,
+                    toolbar: SearchLogging,
+                    footer: Pager
                 }
             }
         ]

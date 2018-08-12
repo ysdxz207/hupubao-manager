@@ -178,6 +178,16 @@ const Access = {
         }
     }
 }
+
+const Logging = {
+    list: {
+        name: 'logging',
+        service: 'logging.list'
+    },
+    detail: {
+        service: 'logging.detail'
+    }
+}
 export default {
     Utils,
     Main,
@@ -186,5 +196,6 @@ export default {
     Blog,
     Image,
     Afu,
-    Access
+    Access,
+    Logging
 }

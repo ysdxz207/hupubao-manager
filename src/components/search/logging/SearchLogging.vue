@@ -5,48 +5,53 @@
                @keyup.enter.native="doSearch">
         <el-form :model="search"
                  :label-width="formLabelWidth">
+            <el-form-item label="级别">
+                <el-select
+                        clearable
+                        v-model="search.levelString"
+                        style="width:100%"
+                        placeholder="全部">
+                    <el-option label="TRACE"
+                               value="TRACE">
+                        <span style="color: #409EFF">TRACE</span>
+                    </el-option>
+                    <el-option label="DEBUG"
+                               value="DEBUG">
+                        <span style="color: #67C23A">DEBUG</span>
+                    </el-option>
+                    <el-option label="INFO"
+                               value="INFO">
+                        <span style="color: #909399">INFO</span>
+                    </el-option>
+                    <el-option label="WARN"
+                               value="WARN">
+                        <span style="color: #E6A23C">WARN</span>
+                    </el-option>
+                    <el-option label="ERROR"
+                               value="ERROR">
+                        <span style="color: #F56C6C">ERROR</span>
+                    </el-option>
+                </el-select>
+            </el-form-item>
             <el-form-item label="标题">
                 <el-input
                         clearable
                         v-model="search.title"
                         auto-complete="off"></el-input>
             </el-form-item>
-            <el-form-item label="分类">
+            <el-form-item label="referenceFlag">
                 <el-select
                         clearable
-                        v-model="search.categoryId"
+                        v-model="search.referenceFlag"
                         style="width:100%"
-                        placeholder="全部分类">
-                    <el-option :label="category.name"
-                               :value="category.id"
-                               v-for="(category, index) in categoryList"
-                               :key="index"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="标签">
-                <el-select
-                        clearable
-                        v-model="search.tagId"
-                        style="width:100%"
-                        placeholder="全部标签">
-                    <el-option :label="tag.name"
-                               :value="tag.id"
-                               v-for="(tag, index) in tagList"
-                               :key="index"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="发布状态">
-                <el-select
-                        clearable
-                        v-model="search.status"
-                        style="width:100%"
-                        placeholder="全部状态">
-                    <el-option label="已发布"
-                               value="1"></el-option>
-                    <el-option label="未发布"
+                        placeholder="全部">
+                    <el-option label="2"
+                               value="2"></el-option>
+                    <el-option label="0"
                                value="0"></el-option>
                 </el-select>
             </el-form-item>
+
         </el-form>
         <div slot="footer" class="dialog-footer">
             <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -67,7 +72,7 @@
                 formLabelWidth: '80px',
                 categoryList: [],
                 tagList: [],
-                searchFrom: this.Constants.Blog.article.name
+                searchFrom: this.Constants.Logging.list.name
             }
         },
         created() {
