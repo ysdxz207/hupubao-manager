@@ -222,7 +222,7 @@
                     type: 'warning',
                     center: true
                 }).then(() => {
-                    Access.user.deleteUser(row).then(response => {
+                    Access.user.deleteUser(row.id).then(response => {
                         if (response.errorCode === 'SUCCESS') {
                             _this.page.list = _this.page.list.filter(t => t.id != row.id)
                             this.$message({
