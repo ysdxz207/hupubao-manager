@@ -44,6 +44,13 @@
                     show-overflow-tooltip>
             </el-table-column>
             <el-table-column
+                    prop="lastLoginTime"
+                    label="最后登录时间"
+                    width="240"
+                    align="center"
+                    show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column
                     label="操作"
                     align="center"
                     width="200">

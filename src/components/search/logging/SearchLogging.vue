@@ -33,10 +33,28 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="标题">
+            <el-form-item label="文件名">
                 <el-input
                         clearable
-                        v-model="search.title"
+                        v-model="search.callerFilename"
+                        auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="类">
+                <el-input
+                        clearable
+                        v-model="search.callerClass"
+                        auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="名称">
+                <el-input
+                        clearable
+                        v-model="search.loggerName"
+                        auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="日志内容">
+                <el-input
+                        clearable
+                        v-model="search.formattedMessage"
                         auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item label="referenceFlag">
@@ -61,8 +79,6 @@
 </template>
 
 <script>
-    import Blog from '~/api/blog'
-
     export default {
         components: {},
         data() {
@@ -70,8 +86,6 @@
                 search: {},
                 dialogFormVisible: false,
                 formLabelWidth: '80px',
-                categoryList: [],
-                tagList: [],
                 searchFrom: this.Constants.Logging.list.name
             }
         },
@@ -86,16 +100,6 @@
         },
         watch: {},
         mounted() {
-            Blog.getArticleCategories({
-                pageSize: 1024
-            }).then(response => {
-                this.categoryList = response.list
-            })
-            Blog.getArticleTags({
-                pageSize: 1024
-            }).then(response => {
-                this.tagList = response.list
-            })
         },
         methods: {
             doSearch() {
