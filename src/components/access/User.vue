@@ -25,28 +25,28 @@
             <el-table-column
                     prop="nickname"
                     label="昵称"
-                    width="240"
+                    width="100"
                     align="center"
                     show-overflow-tooltip>
             </el-table-column>
             <el-table-column
                     prop="roleName"
                     label="角色"
-                    width="240"
+                    width="100"
                     align="center"
                     show-overflow-tooltip>
             </el-table-column>
             <el-table-column
                     prop="createTime"
                     label="创建时间"
-                    width="240"
+                    width="140"
                     align="center"
                     show-overflow-tooltip>
             </el-table-column>
             <el-table-column
                     prop="lastLoginTime"
                     label="最后登录时间"
-                    width="240"
+                    width="140"
                     align="center"
                     show-overflow-tooltip>
             </el-table-column>
