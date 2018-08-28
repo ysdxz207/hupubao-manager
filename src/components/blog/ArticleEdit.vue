@@ -23,6 +23,11 @@
             <el-form-item label="标签">
                 <el-input v-model="article.tags"></el-input>
             </el-form-item>
+            <el-form-item label="简介" prop="intro">
+                <el-input v-model="article.intro"
+                          rows="6"
+                          type="textarea"></el-input>
+            </el-form-item>
             <el-form-item label="内容" required prop="context">
                 <mavon-editor v-model="article.context"
                               @imgAdd="$imgAdd"
@@ -64,6 +69,9 @@
                 rules: {
                     title: [
                         {required: true, message: '请输入标题', trigger: 'blur'}
+                    ],
+                    intro: [
+                        { max: 200, message: '最长 200 个字符', trigger: 'blur' }
                     ],
                     context: [
                         {required: true, message: '请输入文章内容', trigger: 'blur'}

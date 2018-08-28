@@ -1,20 +1,20 @@
 const resolve = require('path').resolve
-const webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const url = require('url')
 const publicPath = ''
 
-module.exports = (options = {}) => ({
+const dev = process.env.NODE_ENV === 'development'
+
+let webpackConfig = {
     entry: {
         vendor: './src/vendor',
         index: './src/main.js'
     },
     output: {
-        path: resolve(__dirname, 'dist'),
-        filename: options.dev ? '[name].js' : '[name].js?[chunkhash]',
-        chunkFilename: '[id].js?[chunkhash]',
-        publicPath: options.dev ? '/assets/' : publicPath
+        path: resolve('dist'),
+        filename: dev ? '[name].js' : '[name].js?[hash]',
+        chunkFilename: '[id].js?[hash]',
+        publicPath: dev ? '/assets/' : publicPath
     },
     module: {
         rules: [
@@ -86,25 +86,18 @@ module.exports = (options = {}) => ({
     ],
     resolve: {
         alias: {
-            '~': resolve(__dirname, 'src')
+            '~': resolve('src')
         },
         extensions: ['.js', '.vue', '.json', '.css']
     },
-    devServer: {
-        host: '127.0.0.1',
-        port: 8010,
-        proxy: {
-            '/api/': {
-                target: 'http://127.0.0.1:8080',
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/api': ''
-                }
-            }
-        },
-        historyApiFallback: {
-            index: url.parse(options.dev ? '/assets/' : publicPath).pathname
-        }
-    },
-    devtool: options.dev ? '#eval-source-map' : '#source-map'
-})
+    externals: {
+        'vue': 'Vue',
+        'element-ui': 'ELEMENT',
+        'vue-router': 'VueRouter',
+        'axios': 'axios'
+
+    }
+}
+
+
+module.exports = webpackConfig
