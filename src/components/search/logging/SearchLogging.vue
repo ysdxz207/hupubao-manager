@@ -5,6 +5,17 @@
                @keyup.enter.native="doSearch">
         <el-form :model="search"
                  :label-width="formLabelWidth">
+            <el-form-item label="时间">
+                <el-date-picker
+                        v-model="timeArr"
+                        type="datetimerange"
+                        :picker-options="pickerOptions"
+                        range-separator="至"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期"
+                        align="right">
+                </el-date-picker>
+            </el-form-item>
             <el-form-item label="级别">
                 <el-select
                         clearable
@@ -33,10 +44,28 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="标题">
+            <el-form-item label="文件名">
                 <el-input
                         clearable
-                        v-model="search.title"
+                        v-model="search.callerFilename"
+                        auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="类">
+                <el-input
+                        clearable
+                        v-model="search.callerClass"
+                        auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="名称">
+                <el-input
+                        clearable
+                        v-model="search.loggerName"
+                        auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="日志内容">
+                <el-input
+                        clearable
+                        v-model="search.formattedMessage"
                         auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item label="referenceFlag">
@@ -61,8 +90,6 @@
 </template>
 
 <script>
-    import Blog from '~/api/blog'
-
     export default {
         components: {},
         data() {
@@ -70,9 +97,35 @@
                 search: {},
                 dialogFormVisible: false,
                 formLabelWidth: '80px',
-                categoryList: [],
-                tagList: [],
-                searchFrom: this.Constants.Logging.list.name
+                searchFrom: this.Constants.Logging.list.name,
+                pickerOptions: {
+                    shortcuts: [{
+                        text: '最近一周',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近一个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }, {
+                        text: '最近三个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    }]
+                },
+                timeArr: []
             }
         },
         created() {
@@ -86,20 +139,14 @@
         },
         watch: {},
         mounted() {
-            Blog.getArticleCategories({
-                pageSize: 1024
-            }).then(response => {
-                this.categoryList = response.list
-            })
-            Blog.getArticleTags({
-                pageSize: 1024
-            }).then(response => {
-                this.tagList = response.list
-            })
         },
         methods: {
             doSearch() {
                 let _this = this
+                if (_this.timeArr && _this.timeArr.length > 0) {
+                    _this.search.startTime = this.timeArr[0]
+                    _this.search.endTime = this.timeArr[1]
+                }
                 _this.bus.$emit(_this.searchFrom, _this.search)
                 _this.dialogFormVisible = false
             }

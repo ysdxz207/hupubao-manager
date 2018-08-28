@@ -207,7 +207,6 @@
                 }
             },
             showException(exception) {
-                console.log(exception)
                 this.exception = exception
                 this.dialogExceptionVisible = true
             }
