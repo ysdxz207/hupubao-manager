@@ -56,8 +56,7 @@
         padding: 0;
     }
     .el-main {
-        padding: 0;
-        height: 100%;
+        height: 100vh;
     }
     .el-footer {
         width: 100%;

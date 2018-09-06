@@ -1,5 +1,5 @@
 <template>
-    <div style="height: 100%;">
+    <div>
         <el-form :model="afuType"
                  :rules="rules"
                  ref="afuType"
