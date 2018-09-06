@@ -89,17 +89,17 @@ const Afu = {
     },
     type: {
         name: 'afu.type',
-        service: 'afu.type.list',
+        service: 'afuType.list',
         detail: {
             name: 'afu.type.detail',
-            service: 'afu.type.detail'
+            service: 'afuType.detail'
         },
         edit: {
             name: 'afu.type.edit',
-            service: 'afu.type.edit'
+            service: 'afuType.edit'
         },
         delete: {
-            service: 'afu.type.delete'
+            service: 'afuType.delete'
         }
     }
 }
