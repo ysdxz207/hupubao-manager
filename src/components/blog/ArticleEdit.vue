@@ -71,7 +71,7 @@
                         {required: true, message: '请输入标题', trigger: 'blur'}
                     ],
                     intro: [
-                        { max: 200, message: '最长 200 个字符', trigger: 'blur' }
+                        {max: 200, message: '最长 200 个字符', trigger: 'blur'}
                     ],
                     context: [
                         {required: true, message: '请输入文章内容', trigger: 'blur'}
@@ -219,7 +219,6 @@
     .form-article-edit {
         height: 100%;
         margin-top: 10px;
-        margin-bottom: 100px;
         padding-right: 20px;
     }
 </style>

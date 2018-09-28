@@ -1,10 +1,10 @@
 <template>
 
-    <el-container>
+    <el-container style="height: 100vh">
         <el-aside width="auto" class="menu-left">
             <menu-left></menu-left>
         </el-aside>
-        <el-container>
+        <el-container style="height: 100vh">
             <el-header><menu-top></menu-top></el-header>
             <el-main>
                 <router-view name="toolbar"
@@ -56,7 +56,7 @@
         padding: 0;
     }
     .el-main {
-        height: 100vh;
+        height: 100%;
     }
     .el-footer {
         width: 100%;
