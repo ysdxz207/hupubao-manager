@@ -143,7 +143,7 @@
                 }
             },
             previewHandler(row) {
-                window.open('http://hupubao.win/article/detail?id=' + row.id)
+                window.open('http://hupubao.win/#/article?id=' + row.id)
             },
             editHandler(row, e) {
                 if (e && e.target.classList.contains('draging')) {
