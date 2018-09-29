@@ -59,7 +59,7 @@
                 <template slot-scope="scope">
                     <el-tooltip content="点击显示异常信息"
                                 placement="left"
-                                v-if="scope.row.exception">
+                                v-if="scope.row.levelString === 'ERROR'">
                         <el-tag :type="getLevelStringType(scope.row.levelString)"
                             @click.native="showException(scope.row.exception)">{{scope.row.levelString}}</el-tag>
                     </el-tooltip>
