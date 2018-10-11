@@ -52,12 +52,26 @@
 
 <script>
     import request from '../utils/request'
+    import Bubbles from './canvas/bubbles/index'
 
     export default {
         components: {
+            Bubbles
         },
         data () {
             return {
+                bubbleOptions: {
+                    len: 40, //The unilateral length of the pentagon
+                    count: 50, //How many lines overlap
+                    rate: 20, //rate the smaller fast
+                    dieChance: 0.05, //The chance to redraw a single painting failure.
+                    sparkChance: 0.1, //[0,1] The larger the figure, the larger the pentagon.
+                    sparkDist: 10, //Flash point distance.
+                    sparkSize: 2,//Flash point size.
+                    contentLight: 60, // [0,100] Brightness of color block
+                    shadowToTimePropMult: 6, //The shadow size of the inner ring of the pentagon.
+                    bgColorArr: [0, 0, 0] //Background color array
+                },
                 user: {
                     username: '',
                     password: '',
@@ -164,5 +178,11 @@
     }
     .login-remember-me-checkbox {
         float: left;
+    }
+
+
+    .el-container {
+        height: 100vh;
+        background: linear-gradient(to top left, #41a37b, #51dda2);
     }
 </style>
