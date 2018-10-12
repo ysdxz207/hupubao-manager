@@ -149,7 +149,7 @@
                     w = canvas.width = window.innerWidth,
                     h = canvas.height = window.innerHeight,
 
-                    hue = 217,
+                    hue = 245,
                     stars = [],
                     count = 0,
                     maxStars = 2300//星星数量
@@ -231,7 +231,7 @@
                 function animation() {
                     ctx.globalCompositeOperation = 'source-over'
                     ctx.globalAlpha = 0.5 //尾巴
-                    ctx.fillStyle = 'hsla(' + hue + ', 64%, 6%, 2)'
+                    ctx.fillStyle = 'hsla(' + hue + ', 10%, 2%, 2)'
                     ctx.fillRect(0, 0, w, h)
 
                     ctx.globalCompositeOperation = 'lighter'
