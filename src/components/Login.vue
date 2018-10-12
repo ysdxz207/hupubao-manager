@@ -154,21 +154,32 @@
                     count = 0,
                     maxStars = 2300//星星数量
 
-                let canvas2 = document.createElement('canvas'),
-                    ctx2 = canvas2.getContext('2d')
-                canvas2.width = 100
-                canvas2.height = 100
-                let half = canvas2.width / 2,
-                    gradient2 = ctx2.createRadialGradient(half, half, 0, half, half, half)
-                gradient2.addColorStop(0.025, '#CCC')
-                gradient2.addColorStop(0.1, 'hsl(' + hue + ', 61%, 33%)')
-                gradient2.addColorStop(0.25, 'hsl(' + hue + ', 64%, 6%)')
-                gradient2.addColorStop(1, 'transparent')
+                //星星颜色
+                let starStyleCount = 6,
+                    starHue = 0,
+                    canvasStars = []
 
-                ctx2.fillStyle = gradient2
-                ctx2.beginPath()
-                ctx2.arc(half, half, half, 0, Math.PI * 2)
-                ctx2.fill()
+                for(let j = 0; j < starStyleCount; j ++) {
+                    let canvas2 = document.createElement('canvas'),
+                        ctx2 = canvas2.getContext('2d')
+                    canvas2.width = 100
+                    canvas2.height = 100
+                    let half = canvas2.width / 2,
+                        gradient2 = ctx2.createRadialGradient(half, half, 0, half, half, half)
+
+                    starHue = 360 / starStyleCount + starHue
+                    console.log(starHue)
+                    gradient2.addColorStop(0.025, '#CCC')
+                    gradient2.addColorStop(0.1, 'hsl(' + starHue + ', 100%, 33%)')
+                    gradient2.addColorStop(0.25, 'hsl(' + starHue + ', 64%, 6%)')
+                    gradient2.addColorStop(1, 'transparent')
+
+                    ctx2.fillStyle = gradient2
+                    ctx2.beginPath()
+                    ctx2.arc(half, half, half, 0, Math.PI * 2)
+                    ctx2.fill()
+                    canvasStars.push(canvas2)
+                }
 
                 function random(min, max) {
                     if (arguments.length < 2) {
@@ -219,8 +230,11 @@
                         this.alpha += 0.05
                     }
 
+                    let canvasStar = canvasStars[random(0, starStyleCount - 1)];
                     ctx.globalAlpha = this.alpha
-                    ctx.drawImage(canvas2, x - this.radius / 2, y - this.radius / 2, this.radius, this.radius);
+                    ctx.drawImage(canvasStar, x - this.radius / 2, y - this.radius / 2, this.radius, this.radius);
+
+
                     this.timePassed += this.speed
                 }
 
@@ -243,87 +257,6 @@
                 }
 
                 animation()
-            },
-            drawBg() {
-                //////////////////////////////////////////////////////////////////////////////////
-// A demonstration of a Canvas nebula effect
-// (c) 2010 by R Cecco. <http://www.professorcloud.com>
-// MIT License
-//
-// Please retain this copyright header in all versions of the software if
-// using significant parts of it
-//////////////////////////////////////////////////////////////////////////////////
-
-                $(document).ready(function(){
-
-                    (function ($) {
-                        // The canvas element we are drawing into.
-                        var	$canvas = $('#canvas');
-                        var	$canvas2 = $('#canvas2');
-                        var	$canvas3 = $('#canvas3');
-                        var	ctx2 = $canvas2[0].getContext('2d');
-                        var	ctx = $canvas[0].getContext('2d');
-                        var	w = $canvas[0].width, h = $canvas[0].height;
-                        var	img = new Image();
-
-                        // A puff.
-                        var	Puff = function(p) {
-                            var	opacity,
-                                sy = (Math.random()*285)>>0,
-                                sx = (Math.random()*285)>>0;
-
-                            this.p = p;
-
-                            this.move = function(timeFac) {
-                                p = this.p + 0.3 * timeFac;
-                                opacity = (Math.sin(p*0.05)*0.5);
-                                if(opacity <0) {
-                                    p = opacity = 0;
-                                    sy = (Math.random()*285)>>0;
-                                    sx = (Math.random()*285)>>0;
-                                }
-                                this.p = p;
-                                ctx.globalAlpha = opacity;
-                                ctx.drawImage($canvas3[0], sy+p, sy+p, 285-(p*2),285-(p*2), 0,0, w, h);
-                            };
-                        };
-
-                        var	puffs = [];
-                        var	sortPuff = function(p1,p2) { return p1.p-p2.p; };
-                        puffs.push( new Puff(0) );
-                        puffs.push( new Puff(20) );
-                        puffs.push( new Puff(40) );
-
-                        var	newTime, oldTime = 0, timeFac;
-
-                        var	loop = function()
-                        {
-                            newTime = new Date().getTime();
-                            if(oldTime === 0 ) {
-                                oldTime=newTime;
-                            }
-                            timeFac = (newTime-oldTime) * 0.1;
-                            if(timeFac>3) {timeFac=3;}
-                            oldTime = newTime;
-                            puffs.sort(sortPuff);
-
-                            for(var i=0;i<puffs.length;i++)
-                            {
-                                puffs[i].move(timeFac);
-                            }
-                            ctx2.drawImage( $canvas[0] ,0,0,570,570);
-                            setTimeout(loop, 10 );
-                        };
-                        // Turns out Chrome is much faster doing bitmap work if the bitmap is in an existing canvas rather
-                        // than an IMG, VIDEO etc. So draw the big nebula image into canvas3
-                        var	$canvas3 = $('#canvas3');
-                        var	ctx3 = $canvas3[0].getContext('2d');
-                        $(img).bind('load',null, function() {  ctx3.drawImage(img, 0,0, 570, 570);	loop(); });
-                        img.src = '/images/nebula/nebula.jpg';
-
-                    })(jQuery);
-                });
-
             }
         },
         created() {
