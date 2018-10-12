@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-container>
-            <canvas id="canvas"></canvas>
+            <canvas id="canvas_bg"></canvas>
             <el-header></el-header>
             <el-main>
                         <el-form ref="user" :model="user" :rules="rules" label-width="80px">
@@ -144,7 +144,7 @@
 
             },
             setCanvas() {
-                let canvas = document.getElementById('canvas'),
+                let canvas = document.querySelector('#canvas_bg'),
                     ctx = canvas.getContext('2d'),
                     w = canvas.width = window.innerWidth,
                     h = canvas.height = window.innerHeight,
@@ -274,7 +274,9 @@
 
     .btn-login {
         width: 100%;
+        background-color: transparent;
     }
+
 
     .login-remember-me-group {
         margin-bottom: 8px;
@@ -284,7 +286,7 @@
         float: left;
     }
 
-    canvas {
+    #canvas_bg {
         width: 100%;
         height: 100%;
         display: inline-block;
@@ -314,5 +316,9 @@
         border-right: 0;
         border-bottom: 1px solid #DDD;
         background-color:transparent;
+    }
+
+    /deep/ .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+        background-color: transparent;
     }
 </style>
