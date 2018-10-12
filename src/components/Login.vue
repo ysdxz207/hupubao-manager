@@ -300,7 +300,7 @@
         height: 100vh;
         width: 100%;
         /*background-color: #000;*/
-        background: linear-gradient(to top left, #41a37b, #51dda2);
+        /*background: linear-gradient(to top left, #41a37b, #51dda2);*/
     }
 
     .el-form {
