@@ -96,7 +96,7 @@
             return {
                 search: {},
                 dialogFormVisible: false,
-                formLabelWidth: '80px',
+                formLabelWidth: '120px',
                 searchFrom: this.Constants.Logging.list.name,
                 pickerOptions: {
                     shortcuts: [{
