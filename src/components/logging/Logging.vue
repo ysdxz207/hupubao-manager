@@ -91,8 +91,14 @@
                     prop="formattedMessage"
                     label="日志内容"
                     width="280"
-                    align="center"
-                    show-overflow-tooltip>
+                    align="center">
+                <template slot-scope="scope">
+                    <el-tooltip content="点击显示内容"
+                                placement="left">
+                        <div style="height: 32px;line-height: 32px;overflow: hidden"
+                             @click="showContent(scope.row.formattedMessage)">{{scope.row.formattedMessage}}</div>
+                    </el-tooltip>
+                </template>
             </el-table-column>
             <el-table-column
                     prop="timestmp"
@@ -112,6 +118,16 @@
                       spellcheck="false"
                       :autosize="{ minRows: 2, maxRows: 22}"
                       :value="exception"></el-input>
+        </el-dialog>
+        <el-dialog title="日志内容"
+                   :visible.sync="dialogContentVisible"
+                   style="text-align: left"
+                   :fullscreen="true">
+            <el-input type="textarea"
+                      resize="none"
+                      spellcheck="false"
+                      :autosize="{ minRows: 2, maxRows: 22}"
+                      :value="content"></el-input>
         </el-dialog>
     </div>
 </template>
@@ -147,7 +163,9 @@
                         {required: true, message: '请输入日志名称', trigger: 'blur'}
                     ]
                 },
-                exception: ''
+                exception: '',
+                content: '',
+                dialogContentVisible: false
             }
         },
         mounted() {
@@ -209,6 +227,10 @@
             showException(exception) {
                 this.exception = exception
                 this.dialogExceptionVisible = true
+            },
+            showContent(content) {
+                this.content = content
+                this.dialogContentVisible = true
             }
         },
         watch: {}
