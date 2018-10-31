@@ -44,7 +44,7 @@ service.interceptors.response.use(
         const res = response.data
         if (res.statusCode !== 200) {
             if (res.errorCode === 'NO_AUTH_ERROR') {
-                sessionStorage.removeItem('token')
+                localStorage.removeItem('token')
                 return
             }
             Message({

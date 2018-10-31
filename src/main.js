@@ -201,7 +201,7 @@ router.beforeEach((to, from, next) => {
     if (whiteList.indexOf(to.path) !== -1) {
         next();
     } else {
-        if (sessionStorage.getItem("token")) {
+        if (localStorage.getItem("token")) {
             next();
             //
 
@@ -222,9 +222,9 @@ new Vue({
     render: h => h(App)
 }).$mount('#app-box')
 
-let originRemoveItem = sessionStorage.removeItem
-//监听sessionStorage
-sessionStorage.removeItem = function (key, newValue) {
+let originRemoveItem = localStorage.removeItem
+//监听localStorage
+localStorage.removeItem = function (key, newValue) {
     originRemoveItem.apply(this, arguments)
     let removeItemEvent = new Event('noAuthEvent')
     removeItemEvent.key = key

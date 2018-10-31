@@ -11,6 +11,10 @@ const Login = {
     login: {
         name: 'user.login',
         service: 'user.login'
+    },
+    logout: {
+        name: 'user.logout',
+        service: 'user.logout'
     }
 }
 

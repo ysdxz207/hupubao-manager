@@ -59,7 +59,7 @@
         },
         mounted() {
             let _this = this
-            _this.access = JSON.parse(sessionStorage.getItem("userInfo"))
+            _this.access = JSON.parse(localStorage.getItem("userInfo"))
             Access.menu.getMenuTypes()
                 .then(response => {
                     _this.menus = response.data
@@ -74,8 +74,11 @@
             },
             logout() {
                 let _this = this;
-                request('/logout', {
-                    method: 'get'
+                request({
+                    data: {
+                        service: _this.Constants.Login.logout.service,
+                        bizContent: {}
+                    }
                 }).then(response => {
                     if (response.statusCode !== 200) {
                         _this.$message.error({
@@ -84,8 +87,8 @@
                             duration: 5 * 1000
                         })
                     } else {
-                        sessionStorage.removeItem("userInfo")
-                        sessionStorage.removeItem("token")
+                        localStorage.removeItem("userInfo")
+                        localStorage.removeItem("token")
                         _this.$router.push({path: '/'})
                     }
                 }).catch(error => {

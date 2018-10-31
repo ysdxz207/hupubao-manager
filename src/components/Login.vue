@@ -128,8 +128,8 @@
                                 duration: 5 * 1000
                             })
                         } else {
-                            sessionStorage.setItem("token", response.data.token)
-                            sessionStorage.setItem("userInfo", JSON.stringify(response.data))
+                            localStorage.setItem("token", response.data.token)
+                            localStorage.setItem("userInfo", JSON.stringify(response.data))
                             _this.$router.push({path: '/'})
                         }
                     }).catch(error => {
